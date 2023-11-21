@@ -17,5 +17,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    //function to setup connections-
+    void setupConnections();
+
+private slots:
+    void batteryStatus();
+    void onElectrodesBtnPressed();
+    void onCardiacArrhythmiaBtnPressed();
+    void placeElectrodes();
 };
 #endif // MAINWINDOW_H
