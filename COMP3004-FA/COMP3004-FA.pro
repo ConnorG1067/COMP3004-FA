@@ -10,7 +10,9 @@ CONFIG += c++11
 
 SOURCES += \
     Victim.cpp \
+    VoiceSystem.cpp \
     main.cpp \
+    AED.cpp \
     mainwindow.cpp
 
 HEADERS += \
@@ -21,6 +23,8 @@ HEADERS += \
     VentricularFibrillation.h \
     VentricularTachycardia.h \
     Victim.h \
+    VoiceSystem.h \
+    AED.h \
     mainwindow.h
 
 FORMS += \
