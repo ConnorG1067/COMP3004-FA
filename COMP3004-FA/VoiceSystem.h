@@ -10,16 +10,16 @@ class AED; // Forward declaration
 class VoiceSystem : QObject {
     Q_OBJECT;
 
-private:
-    QString msg;
-    AED *aed;
-public:
-    VoiceSystem();
-    VoiceSystem(QString msg);
-    QString getMessage();
-    void setMessage(QString *msg);
-signals:
-    void voiceUpdate(QString msg);
+    private:
+        QString msg;
+        AED *aed;
+    public:
+        VoiceSystem();
+        VoiceSystem(QString msg);
+        QString getMessage();
+        void setMessage(QString *msg);
+    signals:
+        void voiceUpdate(QString msg);
 };
 
 #endif // VOICESYSTEM_H
