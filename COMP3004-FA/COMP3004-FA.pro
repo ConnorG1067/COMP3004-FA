@@ -25,6 +25,8 @@ HEADERS += \
     VentricularFibrillation.h \
     VentricularTachycardia.h \
     Victim.h \
+    VoiceSystem.h \
+    AED.h \
     mainwindow.h
 
 FORMS += \
