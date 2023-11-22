@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,15 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     Victim.cpp \
-    aed.cpp \
     main.cpp \
-    VoiceSystem.cpp \
     mainwindow.cpp
 
 HEADERS += \
     AdultElectrode.h \
     AED.h \
-    VoiceSystem.h \
     CardiacArrhythmias.h \
     ChildElectrode.h \
     ElectrodePad.h \
@@ -26,16 +23,7 @@ HEADERS += \
     VentricularTachycardia.h \
     Victim.h \
     VoiceSystem.h \
-    AED.h \
     mainwindow.h
-
-DISTFILES += assets/*
-
-DISTFILES += \
-    nsr_img.png \
-    ventricular_fibrillation_img.png \
-    ventricular_teachycardia_img.png \
-
 
 FORMS += \
     mainwindow.ui
@@ -44,3 +32,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    src.qrc
