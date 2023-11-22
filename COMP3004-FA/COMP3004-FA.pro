@@ -10,11 +10,15 @@ CONFIG += c++11
 
 SOURCES += \
     Victim.cpp \
+    aed.cpp \
     main.cpp \
+    VoiceSystem.cpp \
     mainwindow.cpp
 
 HEADERS += \
     AdultElectrode.h \
+    AED.h \
+    VoiceSystem.h \
     CardiacArrhythmias.h \
     ChildElectrode.h \
     ElectrodePad.h \
