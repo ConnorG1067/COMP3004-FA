@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/audios">
+        <file>src/audios/plugInPadsConnector.mp3</file>
+        <file>src/audios/removePadsFromPackage.mp3</file>
+        <file>src/audios/analyzingHeartRhythmDoNotTouch.mp3</file>
+        <file>src/audios/applyPadsToPatientsBareChest.mp3</file>
+        <file>src/audios/shockAdvisedChargingStandClear.mp3</file>
+        <file>src/audios/shockOneDeliveredBeginCPR.mp3</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>src/img/analyzing.png</file>
+        <file>src/img/attachPads.png</file>
+        <file>src/img/dummy.jpg</file>
+        <file>src/img/exposeBareChest.png</file>
+        <file>src/img/ifChildPressButton.png</file>
+        <file>src/img/openPadPackage.png</file>
+    </qresource>
+</RCC>
