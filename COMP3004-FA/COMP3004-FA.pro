@@ -18,7 +18,6 @@ SOURCES += \
 HEADERS += \
     AdultElectrode.h \
     AED.h \
-    Error.h \
     VoiceSystem.h \
     CardiacArrhythmias.h \
     ChildElectrode.h \
@@ -29,6 +28,14 @@ HEADERS += \
     VoiceSystem.h \
     AED.h \
     mainwindow.h
+
+DISTFILES += assets/*
+
+DISTFILES += \
+    nsr_img.png \
+    ventricular_fibrillation_img.png \
+    ventricular_teachycardia_img.png \
+
 
 FORMS += \
     mainwindow.ui

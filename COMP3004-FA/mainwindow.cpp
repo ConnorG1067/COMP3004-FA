@@ -1,10 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
     // Initialize Buttons
@@ -14,20 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     this->aed = new AED();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
 void MainWindow::initializeBtns(){
-
-        // TODO generate slots
-//    connect(ui->placeAdultElectrodes, SIGNAL(released()), this, SLOT());
-//    connect(ui->placeChildElectrodes, SIGNAL(released()), this, SLOT());
-
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
-//    connect(ui->disturbPatientBtn, SIGNAL(released()), this, SLOT());
-
+    connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -52,14 +42,60 @@ void MainWindow::powerBtn() {
         ui->batteryIndicator->setChecked(!ui->batteryIndicator->isChecked());
     }
 
-    if(this->aed->selfCheck()){
-        selfCheckUI();
-    }
-
+    selfCheckUI(this->aed->selfCheck());
 }
 
-void MainWindow::selfCheckUI() {
+// Add a random error the to aed errorVector
+void MainWindow::failAEDSetupBtn() {
+    // Ensure the AED is not functional
+    this->aed->setIsFunctional(false);
+}
 
+// Generates the AI during a self check
+void MainWindow::selfCheckUI(bool isSuccessful) {
+    // Create a scene and add it to the instructionGraphicsView
+    QGraphicsScene* scene = new QGraphicsScene();
+    ui->instructionGraphics->setScene(scene);
+
+    // Make a progress bar and a textItem
+    QProgressBar *progressBar = new QProgressBar();
+    QGraphicsTextItem *textItem = new QGraphicsTextItem("Preforming Self Check");
+    // Set the position of the text item to be centered and above the progress bar
+    textItem->setPos(25, -30);
+
+    // Set the range and current value of the progress bar
+    progressBar->setRange(0, 100);
+    progressBar->setValue(0);
+
+    // Create a QGraphicsProxyWidget so we can add the progress bar on the QGraphicsView
+    QGraphicsProxyWidget *proxyWidget = new QGraphicsProxyWidget();
+    // Set the widet of the proxyWidget to the progress bar
+    proxyWidget->setWidget(progressBar);
+    // Add the items to the scene
+    scene->addItem(proxyWidget);
+    scene->addItem(textItem);
+
+    // Create and animation
+    QPropertyAnimation *animation = new QPropertyAnimation(progressBar, "value");
+    animation->setDuration(3000); // Animation duration in milliseconds
+    animation->setStartValue(0);
+    animation->setEndValue(100);
+
+    // Generate a random stop value
+    int randomStopValue = QRandomGenerator::global()->bounded(100);
+
+    // When the value is changed check if we need to stop the animation
+    QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
+        // Check if the current value is greater than or equal to the randomStop value and we want a failure
+        if(value.toInt() >= randomStopValue && !isSuccessful) {
+            // Switch the is functional back to true
+            this->aed->setIsFunctional(true);
+            animation->stop();
+        }
+    });
+
+    // Start the animation
+    animation->start();
 }
 
 

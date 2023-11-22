@@ -6,20 +6,19 @@
 #include <vector>
 #include "VoiceSystem.h"
 #include "Victim.h"
-#include "Error.h"
 
 using namespace std;
 
 class AED : QObject{
     private:
         vector<ElectrodePad*>* pads;
-        vector<Error*>* errorVector;
         VoiceSystem *voiceSystem;
         Victim *victim;
 
         int batteryLevel = 100;
         bool isOn = false;
         bool correctPadPos = false;
+        bool isFunctional = true;
     public:
         AED();
         bool powerOn();
@@ -45,10 +44,12 @@ class AED : QObject{
         bool getIsOn() { return this->isOn; }
         int getBatteryLevel() { return this->batteryLevel; }
         bool getCorrectPadPos() { return this->correctPadPos; }
+        bool getIsFunctional() { return this->isFunctional; }
 
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setGetIsOn(bool newIsOn) { this->batteryLevel = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
+        void setIsFunctional(bool newIsFunctional) { this->isFunctional = newIsFunctional; }
 
     signals:
         void arythmiaDetected();

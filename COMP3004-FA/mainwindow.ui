@@ -121,26 +121,6 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Instructions&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="consoleLogs">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>350</y>
-      <width>281</width>
-      <height>271</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="ecgWaveform">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>50</y>
-      <width>281</width>
-      <height>271</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="placeAdultElectrodes">
     <property name="geometry">
      <rect>
@@ -380,6 +360,39 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="instructionGraphics">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>351</y>
+      <width>281</width>
+      <height>271</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="waveFormGraphics">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>51</y>
+      <width>281</width>
+      <height>271</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="failSetUpBtn">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>430</y>
+      <width>71</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fail Setup</string>
     </property>
    </widget>
   </widget>

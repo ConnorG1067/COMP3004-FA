@@ -3,7 +3,12 @@
 
 #include <QMainWindow>
 #include <QDebug>
-
+#include <QProgressBar>
+#include <QVBoxLayout>
+#include <QGraphicsProxyWidget>
+#include <QTimer>
+#include <QPropertyAnimation>
+#include <QRandomGenerator>
 #include "AED.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,10 +29,11 @@ private:
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
-    void selfCheckUI();
+    void selfCheckUI(bool);
 
 private slots:  
     void powerBtn();
+    void failAEDSetupBtn();
 
 };
 #endif // MAINWINDOW_H
