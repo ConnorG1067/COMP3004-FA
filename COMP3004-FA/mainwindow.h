@@ -24,6 +24,7 @@ private:
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
+    void selfCheckUI();
 
 private slots:  
     void powerBtn();

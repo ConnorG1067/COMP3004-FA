@@ -2,20 +2,24 @@
 #define AED_H
 
 #include <QObject>
-#include <QVector>
 #include <ElectrodePad.h>
 #include <vector>
 #include "VoiceSystem.h"
 #include "Victim.h"
+#include "Error.h"
 
-class AED : QObject {
+using namespace std;
+
+class AED : QObject{
     private:
-        QVector<ElectrodePad> pads;
+        vector<ElectrodePad*>* pads;
+        vector<Error*>* errorVector;
         VoiceSystem *voiceSystem;
         Victim *victim;
 
         int batteryLevel = 100;
         bool isOn = false;
+        bool correctPadPos = false;
     public:
         AED();
         bool powerOn();
@@ -33,13 +37,18 @@ class AED : QObject {
         void delAllPads();
         void setPads(QVector<ElectrodePad> *pads);
 
+        // Self Check
+        bool selfCheck();
+
 
         // Getters & Setters
         bool getIsOn() { return this->isOn; }
         int getBatteryLevel() { return this->batteryLevel; }
+        bool getCorrectPadPos() { return this->correctPadPos; }
 
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setGetIsOn(bool newIsOn) { this->batteryLevel = newIsOn; }
+        void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
 
     signals:
         void arythmiaDetected();

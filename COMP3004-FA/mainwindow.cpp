@@ -51,6 +51,15 @@ void MainWindow::powerBtn() {
         ui->activeIndicator->setChecked(!ui->activeIndicator->isChecked());
         ui->batteryIndicator->setChecked(!ui->batteryIndicator->isChecked());
     }
+
+    if(this->aed->selfCheck()){
+        selfCheckUI();
+    }
+
+}
+
+void MainWindow::selfCheckUI() {
+
 }
 
 

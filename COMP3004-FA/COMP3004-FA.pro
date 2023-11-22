@@ -18,6 +18,7 @@ SOURCES += \
 HEADERS += \
     AdultElectrode.h \
     AED.h \
+    Error.h \
     VoiceSystem.h \
     CardiacArrhythmias.h \
     ChildElectrode.h \
