@@ -10,6 +10,13 @@
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include "AED.h"
+#include "Victim.h"
+#include "CardiacArrhythmias.h"
+#include "NormalSinusRhythm.h"
+#include "VentricularFibrillation.h"
+#include "VentricularTachycardia.h"
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,9 +41,17 @@ private:
     void selfCheckUI(bool);
     void displayDummy();
 
+    // Helpers
+    void placeImage(QGraphicsScene*, string, int, int, int, int);
+    string determineCondition();
+    CardiacArrhythmias* imgPathToCardiac(string);
+
 private slots:  
     void powerBtn();
     void failAEDSetupBtn();
+    void placeAdultElectrodeBtn();
+    void placeChildElectrodeBtn();
+
 
 };
 #endif // MAINWINDOW_H

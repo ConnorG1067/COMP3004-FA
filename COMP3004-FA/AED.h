@@ -25,16 +25,15 @@ class AED : QObject{
         void monitorLoop();
         void shock();
 
-        void setVictim(Victim *victim);
-        void setVoice(QString *msg);
-        // I imagine the UI will be much more complex, and that this function will ultimately get eliminated
-        // When the UI comes in, we'll be able to add the change.
-        // TODO: Change this func so it suits the real UI
-        void setDisplay(QString *msg);
-        void addPad(ElectrodePad *pad);
-        void delPad();
-        void delAllPads();
-        void setPads(QVector<ElectrodePad> *pads);
+//        void setVoice(QString *msg);
+//        // I imagine the UI will be much more complex, and that this function will ultimately get eliminated
+//        // When the UI comes in, we'll be able to add the change.
+//        // TODO: Change this func so it suits the real UI
+//        void setDisplay(QString *msg);
+//        void addPad(ElectrodePad *pad);
+//        void delPad();
+//        void delAllPads();
+//        void setPads(QVector<ElectrodePad> *pads);
 
         // Self Check
         bool selfCheck();
@@ -45,11 +44,13 @@ class AED : QObject{
         int getBatteryLevel() { return this->batteryLevel; }
         bool getCorrectPadPos() { return this->correctPadPos; }
         bool getIsFunctional() { return this->isFunctional; }
+        Victim* getVictim() { return this->victim; }
 
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
-        void setGetIsOn(bool newIsOn) { this->batteryLevel = newIsOn; }
+        void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
         void setIsFunctional(bool newIsFunctional) { this->isFunctional = newIsFunctional; }
+        void setVictim(Victim *newVictim) { this->victim = newVictim; };
 
     signals:
         void arythmiaDetected();
