@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1178</width>
-    <height>632</height>
+    <height>681</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
@@ -63,7 +66,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <x>20</x>
       <y>20</y>
       <width>31</width>
-      <height>551</height>
+      <height>621</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -91,13 +94,11 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="text">
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Buttons&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir='rtl' style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -126,7 +127,7 @@ p, li { white-space: pre-wrap; }
       <x>50</x>
       <y>350</y>
       <width>281</width>
-      <height>221</height>
+      <height>271</height>
      </rect>
     </property>
    </widget>
@@ -153,7 +154,7 @@ p, li { white-space: pre-wrap; }
      <string>Place Adult Electrodes</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="onOffBtn">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -169,8 +170,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="shock">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>490</y>
+      <x>560</x>
+      <y>540</y>
       <width>71</width>
       <height>71</height>
      </rect>
@@ -187,7 +188,7 @@ color: black</string>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>440</y>
+      <y>500</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -200,7 +201,7 @@ color: black</string>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>470</y>
+      <y>530</y>
       <width>171</width>
       <height>22</height>
      </rect>
@@ -213,7 +214,7 @@ color: black</string>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>500</y>
+      <y>560</y>
       <width>141</width>
       <height>22</height>
      </rect>
@@ -222,7 +223,7 @@ color: black</string>
      <string>Analyzing</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="active">
+   <widget class="QRadioButton" name="activeIndicator">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -230,6 +231,27 @@ color: black</string>
       <width>91</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       green;
+    border:                 2px solid black;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color:       red;
+    border:                 2px solid black;
+}</string>
     </property>
     <property name="text">
      <string>Active</string>
@@ -252,7 +274,7 @@ color: black</string>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>530</y>
+      <y>590</y>
       <width>141</width>
       <height>22</height>
      </rect>
@@ -261,7 +283,7 @@ color: black</string>
      <string>Shockable Rhythm</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="placeChildElectrodes_2">
+   <widget class="QPushButton" name="disturbPatientBtn">
     <property name="geometry">
      <rect>
       <x>340</x>
@@ -283,6 +305,26 @@ color: black</string>
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       green;
+    border:                 2px solid black;
+}
+
+QRadioButton::indicator:unchecked {
+    border:                 2px solid black;
+}</string>
+    </property>
     <property name="text">
      <string>Battery</string>
     </property>
@@ -303,9 +345,9 @@ color: black</string>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>570</y>
-      <width>661</width>
+      <x>30</x>
+      <y>620</y>
+      <width>651</width>
       <height>21</height>
      </rect>
     </property>
@@ -326,7 +368,7 @@ p, li { white-space: pre-wrap; }
       <x>650</x>
       <y>20</y>
       <width>31</width>
-      <height>561</height>
+      <height>611</height>
      </rect>
     </property>
     <property name="styleSheet">

@@ -7,8 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //Set up connections-
-    setupConnections();
+    // Initialize Buttons
+    initializeBtns();
+    initializeStartingUI();
+
+    this->aed = new AED();
 }
 
 MainWindow::~MainWindow()
@@ -16,34 +19,41 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setupConnections(){
-    //connect Battery button click signal to BatteryStatus slot
-    connect(ui->batteryIndicator, SIGNAL(released()), this, SLOT(batteryStatus()));
+void MainWindow::initializeBtns(){
 
-    //connect Electrode button click signal to OnElectrodesBtnPressed slot
-    connect(ui->batteryIndicator_2, SIGNAL(released()), this, SLOT(onElectrodesBtnPressed()));
+        // TODO generate slots
+//    connect(ui->placeAdultElectrodes, SIGNAL(released()), this, SLOT());
+//    connect(ui->placeChildElectrodes, SIGNAL(released()), this, SLOT());
 
-    //connect Cardiac Arrhythmia button click signal to OnCardiacArrhythmiaBtnPressed slot
-    connect(ui->electrode...indicator, SIGNAL(released()), this, SLOT(onCardiacArrhythmiaBtnPressed()));
+    connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
+//    connect(ui->disturbPatientBtn, SIGNAL(released()), this, SLOT());
 
-    //connect Place Electrodes button click signal to PlaceElectrodes slot
-    connect(ui->placeElectrodes, SIGNAL(released()), this, SLOT(placeElectrodes()));
 }
 
-void MainWindow::batteryStatus(){
-    qInfo("Shows remaining battery percentage");
+// Function that is ran on the UI contructor to update UI
+void MainWindow::initializeStartingUI() {
+
+    // Setting up active and battery indicator DON'T TOUCH!
+    ui->batteryIndicator->setDisabled(true);
+    ui->activeIndicator->setDisabled(true);
+
+    ui->batteryIndicator->setCheckable(true);
+    ui->activeIndicator->setCheckable(true);
+
+    ui->batteryIndicator->setAutoExclusive(false);
+    ui->activeIndicator->setAutoExclusive(false);
 }
 
-void MainWindow::onElectrodesBtnPressed(){
-    qInfo("Connect Electrodes");
+// Toggles the on and off buttons
+void MainWindow::powerBtn() {
+    // If we can power the aed on update the UI
+    if(this->aed->powerOn()){
+        ui->activeIndicator->setChecked(!ui->activeIndicator->isChecked());
+        ui->batteryIndicator->setChecked(!ui->batteryIndicator->isChecked());
+    }
 }
 
-void MainWindow::onCardiacArrhythmiaBtnPressed(){
-    qInfo("Cardiac Arrhythmia");
-}
 
-void MainWindow::placeElectrodes(){
-    qInfo("Place Electrodes");
-}
+
 
 

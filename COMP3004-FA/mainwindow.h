@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
+
+#include "AED.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,13 +20,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    //function to setup connections-
-    void setupConnections();
+    AED* aed;
+    // function to setup connections-
+    void initializeBtns();
+    void initializeStartingUI();
 
-private slots:
-    void batteryStatus();
-    void onElectrodesBtnPressed();
-    void onCardiacArrhythmiaBtnPressed();
-    void placeElectrodes();
+private slots:  
+    void powerBtn();
+
 };
 #endif // MAINWINDOW_H
