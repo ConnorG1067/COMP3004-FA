@@ -1,11 +1,9 @@
 #include "AED.h"
 
-AED::AED() {
-    this->errorVector = new vector<Error*>;
-}
+AED::AED() {}
 
 bool AED::selfCheck() {
-    if(this->batteryLevel > 0 && this->errorVector->empty()) {
+    if(this->isFunctional) {
         return true;
     }else{
         return false;
