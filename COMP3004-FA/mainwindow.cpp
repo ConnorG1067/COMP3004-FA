@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     initializeBtns();
     initializeStartingUI();
 
+    this->instructionScene = new QGraphicsScene();
+    this->waveFormScene = new QGraphicsScene();
     this->aed = new AED();
 }
 
@@ -54,8 +56,7 @@ void MainWindow::failAEDSetupBtn() {
 // Generates the AI during a self check
 void MainWindow::selfCheckUI(bool isSuccessful) {
     // Create a scene and add it to the instructionGraphicsView
-    QGraphicsScene* scene = new QGraphicsScene();
-    ui->instructionGraphics->setScene(scene);
+    ui->instructionGraphics->setScene(this->instructionScene);
 
     // Make a progress bar and a textItem
     QProgressBar *progressBar = new QProgressBar();
@@ -72,8 +73,8 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     // Set the widet of the proxyWidget to the progress bar
     proxyWidget->setWidget(progressBar);
     // Add the items to the scene
-    scene->addItem(proxyWidget);
-    scene->addItem(textItem);
+    this->instructionScene->addItem(proxyWidget);
+    this->instructionScene->addItem(textItem);
 
     // Create and animation
     QPropertyAnimation *animation = new QPropertyAnimation(progressBar, "value");
@@ -83,6 +84,12 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
 
     // Generate a random stop value
     int randomStopValue = QRandomGenerator::global()->bounded(100);
+    QObject::connect(animation, &QPropertyAnimation::finished, [this]() {
+        if(this->aed->getIsFunctional()){
+            displayDummy();
+        }
+    });
+
 
     // When the value is changed check if we need to stop the animation
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
@@ -96,6 +103,16 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
 
     // Start the animation
     animation->start();
+}
+
+
+void MainWindow::displayDummy() {
+    this->instructionScene->clear();
+    QPixmap image("Other files/dummp_img.jpg");
+    qDebug() << image.isNull();
+    QGraphicsPixmapItem* pixmapItem = new QGraphicsPixmapItem(image);
+    this->instructionScene->addItem(pixmapItem);
+
 }
 
 

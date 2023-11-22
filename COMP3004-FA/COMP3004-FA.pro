@@ -35,6 +35,7 @@ DISTFILES += \
     nsr_img.png \
     ventricular_fibrillation_img.png \
     ventricular_teachycardia_img.png \
+    dummy_img.jpg \
 
 
 FORMS += \

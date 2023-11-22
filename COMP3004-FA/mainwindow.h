@@ -25,11 +25,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* instructionScene;
+    QGraphicsScene* waveFormScene;
     AED* aed;
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
     void selfCheckUI(bool);
+    void displayDummy();
 
 private slots:  
     void powerBtn();
