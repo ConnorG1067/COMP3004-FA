@@ -239,6 +239,8 @@ void MainWindow::placePadsUI(bool isChild) {
     // Add the box to the scene
     this->instructionScene->addItem(currentPair->getUpperPad()->getPadRect());
     this->instructionScene->addItem(currentPair->getLowerPad()->getPadRect());
+
+    this->aed->setFaultyPadPlacement(false);
 }
 
 
