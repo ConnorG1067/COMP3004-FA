@@ -10,6 +10,13 @@
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include "AED.h"
+#include "Victim.h"
+#include "CardiacArrhythmias.h"
+#include "NormalSinusRhythm.h"
+#include "VentricularFibrillation.h"
+#include "VentricularTachycardia.h"
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,15 +32,26 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* instructionScene;
+    QGraphicsScene* waveFormScene;
     AED* aed;
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
     void selfCheckUI(bool);
+    void displayDummy();
+
+    // Helpers
+    void placeImage(QGraphicsScene*, string, int, int, int, int);
+    string determineCondition();
+    CardiacArrhythmias* imgPathToCardiac(string);
 
 private slots:  
     void powerBtn();
     void failAEDSetupBtn();
+    void placeAdultElectrodeBtn();
+    void placeChildElectrodeBtn();
+
 
 };
 #endif // MAINWINDOW_H

@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Victim.cpp \
+    aed.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     CardiacArrhythmias.h \
     ChildElectrode.h \
     ElectrodePad.h \
+    NormalSinusRhythm.h \
     VentricularFibrillation.h \
     VentricularTachycardia.h \
     Victim.h \
