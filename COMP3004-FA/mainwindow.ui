@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1178</width>
+    <width>696</width>
     <height>681</height>
    </rect>
   </property>
@@ -126,9 +126,9 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>350</x>
       <y>60</y>
-      <width>171</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -245,9 +245,9 @@ QRadioButton::indicator:unchecked {
     </property>
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>350</x>
       <y>120</y>
-      <width>171</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -271,9 +271,9 @@ QRadioButton::indicator:unchecked {
    <widget class="QPushButton" name="disturbPatientBtn">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>350</x>
       <y>180</y>
-      <width>171</width>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -573,13 +573,30 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Indicators&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="misPlacePad">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>180</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Misplace 
+Electro Pad</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1178</width>
+     <width>696</width>
      <height>22</height>
     </rect>
    </property>

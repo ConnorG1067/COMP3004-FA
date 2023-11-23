@@ -2,16 +2,14 @@
 #define ELECTRODEPAD_H
 
 #include <stdlib.h>
+#include <QGraphicsRectItem>
 
 class ElectrodePad {
     public:
-        ElectrodePad();
+        ElectrodePad() {};
         virtual void sensorDetection() = 0;
-
-        bool getIsOnVictim() { return this->isOnVictim; }
-        bool setIsOnVictim() { return this->isOnVictim; }
+        virtual QGraphicsRectItem* getPadRect() = 0;
     private:
-        bool isOnVictim = false;
 };
 
 #endif // ELECTRODEPAD_H
