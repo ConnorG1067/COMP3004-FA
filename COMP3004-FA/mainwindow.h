@@ -26,6 +26,7 @@ public:
 private:
     Ui::MainWindow *ui;
     AED* aed;
+    VoiceSystem* vs;
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
@@ -34,6 +35,7 @@ private:
 private slots:  
     void powerBtn();
     void failAEDSetupBtn();
+    void displayTextInstruction(QString);
 
 };
 #endif // MAINWINDOW_H

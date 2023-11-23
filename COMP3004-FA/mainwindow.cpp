@@ -3,12 +3,17 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    vs = new VoiceSystem();
 
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
 
     this->aed = new AED();
+
+
+    vs->analyzingHeartRhythmDoNotTouch();
+
 }
 
 MainWindow::~MainWindow() {
@@ -32,6 +37,8 @@ void MainWindow::initializeStartingUI() {
 
     ui->batteryIndicator->setAutoExclusive(false);
     ui->activeIndicator->setAutoExclusive(false);
+
+    connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->vs->getCurrentInstruction());});
 }
 
 // Toggles the on and off buttons
@@ -49,6 +56,11 @@ void MainWindow::powerBtn() {
 void MainWindow::failAEDSetupBtn() {
     // Ensure the AED is not functional
     this->aed->setIsFunctional(false);
+}
+
+// Add a random error the to aed errorVector
+void MainWindow::displayTextInstruction(QString message) {
+    this->ui->textInstructions->append(message);
 }
 
 // Generates the AI during a self check

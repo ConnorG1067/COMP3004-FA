@@ -395,6 +395,16 @@ p, li { white-space: pre-wrap; }
      <string>Fail Setup</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="textInstructions">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>350</y>
+      <width>231</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
