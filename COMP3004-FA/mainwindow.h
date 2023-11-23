@@ -9,12 +9,15 @@
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
+#include <QGraphicsOpacityEffect>
 #include "AED.h"
 #include "Victim.h"
 #include "CardiacArrhythmias.h"
 #include "NormalSinusRhythm.h"
 #include "VentricularFibrillation.h"
 #include "VentricularTachycardia.h"
+#include "ChildElectrode.h"
+#include "AdultElectrode.h"
 
 
 
@@ -45,6 +48,9 @@ private:
     void placeImage(QGraphicsScene*, string, int, int, int, int);
     string determineCondition();
     CardiacArrhythmias* imgPathToCardiac(string);
+    void updateVictimInfo();
+    void placePadsUI(bool);
+    ElectrodePadPair* generateElectrodePadPair(bool);
 
 private slots:  
     void powerBtn();

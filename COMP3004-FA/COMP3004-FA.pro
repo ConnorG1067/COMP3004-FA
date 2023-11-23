@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ElectrodePadPair.cpp \
     Victim.cpp \
     aed.cpp \
     main.cpp \
@@ -20,6 +21,7 @@ HEADERS += \
     CardiacArrhythmias.h \
     ChildElectrode.h \
     ElectrodePad.h \
+    ElectrodePadPair.h \
     NormalSinusRhythm.h \
     VentricularFibrillation.h \
     VentricularTachycardia.h \

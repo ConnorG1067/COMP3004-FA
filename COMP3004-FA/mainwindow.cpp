@@ -24,6 +24,10 @@ void MainWindow::initializeBtns(){
     connect(ui->placeAdultElectrodes, SIGNAL(released()), this, SLOT(placeAdultElectrodeBtn()));
     connect(ui->placeChildElectrodes, SIGNAL(released()), this, SLOT(placeChildElectrodeBtn()));
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
+    connect(ui->misPlacePad, &QPushButton::released, this, [this] () {
+        this->aed->setFaultyPadPlacement(true);
+    });
+
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
 }
 
@@ -171,22 +175,70 @@ void MainWindow::placeAdultElectrodeBtn() {
     string patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
-    // Ages 19 - 100
+    // Set the aed to a victim aged from 19-100, with a random condition
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(19, 101), imgPathToCardiac(patientCondition)));
-    qDebug() << this->aed->getVictim()->getCondition()->getConditionName();
-    ui->nameLabel->setText(QString::fromStdString(this->aed->getVictim()->getName()));
-    ui->ageLabel->setText(QString::number(this->aed->getVictim()->getAge()));
-    ui->conditionLabel->setText(this->aed->getVictim()->getCondition()->getConditionName());
-
+    updateVictimInfo();
+    placePadsUI(false);
 }
 
 void MainWindow::placeChildElectrodeBtn() {
     string patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
-    // Ages 5 - 18
+    // Set the aed to a victim aged from 5-18, with a random condition
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(5, 19), imgPathToCardiac(patientCondition)));
+    updateVictimInfo();
+    placePadsUI(true);
+}
 
+
+void MainWindow::updateVictimInfo() {
+    ui->nameLabel->setText(QString::fromStdString(this->aed->getVictim()->getName()));
+    ui->ageLabel->setText(QString::number(this->aed->getVictim()->getAge()));
+    ui->conditionLabel->setText(this->aed->getVictim()->getCondition()->getConditionName());
+}
+
+ElectrodePadPair* MainWindow::generateElectrodePadPair(bool isChild){
+    ElectrodePadPair* currentPair;
+    if(isChild){
+        if(this->aed->getFaultyPadPlacment()){
+            currentPair = new ElectrodePadPair(
+                        new ChildElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121)),
+                        new ChildElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121))
+                    );
+        }else{
+            currentPair = new ElectrodePadPair(new ChildElectrode(60, 70), new ChildElectrode(114, 131));
+        }
+    }else{
+        if(this->aed->getFaultyPadPlacment()){
+            currentPair = new ElectrodePadPair(
+                        new AdultElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121)),
+                        new AdultElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121))
+                    );
+        }else{
+            currentPair = new ElectrodePadPair(new AdultElectrode(60, 70), new AdultElectrode(114, 131));
+        }
+    }
+
+    return currentPair;
+}
+
+void MainWindow::placePadsUI(bool isChild) {
+    if(this->instructionScene->items().contains(this->aed->getElectrodePadPair()->getUpperPad()->getPadRect())){
+        this->instructionScene->removeItem(this->aed->getElectrodePadPair()->getUpperPad()->getPadRect());
+    }
+    if(this->instructionScene->items().contains(this->aed->getElectrodePadPair()->getLowerPad()->getPadRect())){
+        this->instructionScene->removeItem(this->aed->getElectrodePadPair()->getLowerPad()->getPadRect());
+    }
+    // Create an electrode pair
+    ElectrodePadPair* currentPair = generateElectrodePadPair(isChild);
+
+    // Set the aed pair to the pair made above
+    this->aed->setElectrodePadPair(currentPair);
+
+    // Add the box to the scene
+    this->instructionScene->addItem(currentPair->getUpperPad()->getPadRect());
+    this->instructionScene->addItem(currentPair->getLowerPad()->getPadRect());
 }
 
 

@@ -1,6 +1,8 @@
 #include "AED.h"
 
-AED::AED() {}
+AED::AED() {
+    this->electrodePads = new ElectrodePadPair(new AdultElectrode(), new AdultElectrode());
+}
 
 bool AED::selfCheck() {
     if(this->isFunctional) {
