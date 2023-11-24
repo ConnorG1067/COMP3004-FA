@@ -13,6 +13,7 @@ class VoiceSystem : public QObject {
 
     private:
         QString currentInstruction;
+        QString currentIllustrationPath;
         AED *aed;
         QMediaPlayer* audioInstructions;
 
@@ -22,6 +23,9 @@ class VoiceSystem : public QObject {
 
         QString getCurrentInstruction();
         void setCurrentInstruction(QString);
+
+        QString getCurrentIllustrationPath();
+        void setCurrentIllustrationPath(QString);
 
         // Message functions
         void initiateAudioAndTextIntruction(QString, QString, QString);

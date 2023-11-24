@@ -17,6 +17,9 @@ void VoiceSystem::setCurrentInstruction(QString newInstruction){
 void VoiceSystem::initiateAudioAndTextIntruction(QString audioPath, QString imagePath, QString currentInstruction){
     this->audioInstructions->setMedia(QUrl(audioPath));
     this->audioInstructions->play();
+
     this->setCurrentInstruction(currentInstruction);
+    this->setCurrentIllustrationPath(illustrationPath);
+
     emit this->textInstructionUpdatedForDisplay();
 }
