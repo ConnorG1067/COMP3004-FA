@@ -23,20 +23,20 @@ void VoiceSystem::analyzingHeartRhythmDoNotTouch(){
 void VoiceSystem::applyPadsToPatientsBareChest(){
     this->audioInstructions->setMedia(QUrl("qrc:/src/audios/applyPadsToPatientsBareChest.mp3"));
     this->audioInstructions->play();
-    this->setCurrentInstruction("Analyzing Heart Rhythm. Do not touch patient.");
+    this->setCurrentInstruction("Apply Pads to the patient's bare chest");
     emit this->textInstructionUpdatedForDisplay();
 }
 
 void VoiceSystem::shockAdvisedChargingStandClear(){
     this->audioInstructions->setMedia(QUrl("qrc:/src/audios/shockAdvisedChargingStandClear.mp3"));
     this->audioInstructions->play();
-    this->setCurrentInstruction("Analyzing Heart Rhythm. Do not touch patient.");
+    this->setCurrentInstruction("Shock advized. Charging. Stand Clear");
     emit this->textInstructionUpdatedForDisplay();
 }
 
 void VoiceSystem::shockOneDeliveredBeginCPR(){
     this->audioInstructions->setMedia(QUrl("qrc:/src/audios/shockOneDeliveredBeginCPR.mp3"));
     this->audioInstructions->play();
-    this->setCurrentInstruction("Analyzing Heart Rhythm. Do not touch patient.");
+    this->setCurrentInstruction("Shock one delivered. Begin CPR now.");
     emit this->textInstructionUpdatedForDisplay();
 }
