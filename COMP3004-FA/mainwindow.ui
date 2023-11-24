@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>350</x>
       <y>60</y>
-      <width>141</width>
+      <width>151</width>
       <height>51</height>
      </rect>
     </property>
@@ -175,6 +175,21 @@ color: black</string>
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:unchecked {
+    border:                 2px solid black;
+}</string>
+    </property>
     <property name="text">
      <string>Check Pads</string>
     </property>
@@ -188,6 +203,21 @@ color: black</string>
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:unchecked {
+    border:                 2px solid black;
+}</string>
+    </property>
     <property name="text">
      <string>Do Not Touch Patient</string>
     </property>
@@ -200,6 +230,21 @@ color: black</string>
       <width>141</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:unchecked {
+    border:                 2px solid black;
+}</string>
     </property>
     <property name="text">
      <string>Analyzing</string>
@@ -247,7 +292,7 @@ QRadioButton::indicator:unchecked {
      <rect>
       <x>350</x>
       <y>120</y>
-      <width>141</width>
+      <width>151</width>
       <height>51</height>
      </rect>
     </property>
@@ -264,6 +309,21 @@ QRadioButton::indicator:unchecked {
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+    color:                  black;
+}
+
+QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:unchecked {
+    border:                 2px solid black;
+}</string>
+    </property>
     <property name="text">
      <string>Shockable Rhythm</string>
     </property>
@@ -273,7 +333,7 @@ QRadioButton::indicator:unchecked {
      <rect>
       <x>350</x>
       <y>180</y>
-      <width>141</width>
+      <width>151</width>
       <height>51</height>
      </rect>
     </property>
@@ -314,17 +374,17 @@ QRadioButton::indicator:unchecked {
      <string>Battery</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="initiateRhythm">
+   <widget class="QRadioButton" name="VentricularFibrillationRB">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>270</y>
-      <width>301</width>
+      <x>420</x>
+      <y>260</y>
+      <width>161</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Initiate Shockable Heart Rhythm in Patient</string>
+     <string>Ventricular Fibrillation</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -600,6 +660,31 @@ Electro Pad</string>
      </rect>
     </property>
    </widget>
+   <widget class="QRadioButton" name="ventricularTachycardiaRB">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>280</y>
+      <width>181</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ventricular Tachycardia</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="normalSinusRhythmRB">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>240</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Normal Sinus Rhythm</string>
+    </property>
    <widget class="QGraphicsView" name="imageInstructionGraphics">
     <property name="geometry">
      <rect>

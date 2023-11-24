@@ -24,6 +24,7 @@ class AED : QObject{
         bool correctPadPos = false;
         bool isFunctional = true;
         bool faultyPadPlacement = false;
+        bool readyForShock = false;
     public:
         AED();
         bool powerOn();
@@ -36,6 +37,7 @@ class AED : QObject{
 
         // Getters & Setters
         bool getIsOn() { return this->isOn; }
+        bool getIsReadyForShock() { return this->readyForShock; }
         int getBatteryLevel() { return this->batteryLevel; }
         bool getCorrectPadPos() { return this->correctPadPos; }
         bool getIsFunctional() { return this->isFunctional; }
@@ -44,6 +46,7 @@ class AED : QObject{
 
         Victim* getVictim() { return this->victim; }
 
+        void setIsReadyForShock(bool isReady) { this->readyForShock = isReady; }
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }

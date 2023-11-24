@@ -1,6 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+QString MainWindow::yellowRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:yellow;border:2px solid black;}";
+QString MainWindow::redRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:red;border:2px solid black;}";
+QString MainWindow::greenRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:green;border:2px solid black;}";
+QString MainWindow::blackUnfilledRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:unchecked {border:2px solid black;}";
+
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     vs = new VoiceSystem();
@@ -11,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->instructionGraphics->setScene(this->instructionScene);
     ui->imageInstructionGraphics->setScene(this->imageInstructionScene);
     ui->waveFormGraphics->setScene(this->waveFormScene);
+    ui->normalSinusRhythmRB->setChecked(true);
 
     // Initialize Buttons
     initializeBtns();
@@ -47,6 +54,16 @@ void MainWindow::initializeStartingUI() {
     ui->batteryIndicator->setAutoExclusive(false);
     ui->activeIndicator->setAutoExclusive(false);
 
+    ui->checkPads->setAutoExclusive(false);
+    ui->doNotTouchPatient->setAutoExclusive(false);
+    ui->analyzing->setAutoExclusive(false);
+    ui->shockableRhythm->setAutoExclusive(false);
+
+    ui->checkPads->setDisabled(true);
+    ui->doNotTouchPatient->setDisabled(true);
+    ui->analyzing->setDisabled(true);
+    ui->shockableRhythm->setDisabled(true);
+
     connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->vs->getCurrentInstruction());});
     connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(vs->getCurrentIllustrationPath()), 200, 100, 35, 0); });
 }
@@ -62,6 +79,19 @@ void MainWindow::powerBtn() {
     }else{
         this->instructionScene->clear();
         this->waveFormScene->clear();
+
+        // Set to the default style
+        ui->checkPads->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+        ui->doNotTouchPatient->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+        ui->analyzing->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+        ui->shockableRhythm->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+
+        //Uncheck all radio btns
+        ui->checkPads->setChecked(false);
+        ui->doNotTouchPatient->setChecked(false);
+        ui->analyzing->setChecked(false);
+        ui->shockableRhythm->setChecked(false);
+
         ui->placeAdultElectrodes->setEnabled(false);
         ui->placeChildElectrodes->setEnabled(false);
     }
@@ -155,19 +185,13 @@ void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int 
 
 // Determines the condition of the patient
 QString MainWindow::determineCondition() {
-    // Generates a random number from 0 to 9
-    int randomNumber = QRandomGenerator::global()->bounded(10);
-    // 0 - 5 NSR 60%
-    // 6 - 7 VT 20% Inclusive
-    // 8 - 9 VF 20% Inclusive
-    if(randomNumber < 6){
+    if(ui->normalSinusRhythmRB->isChecked()){
         return ":/images/src/img/nsr_ecg.png";
-    }else if(randomNumber >= 6 && randomNumber <= 7){
+    }else if(ui->VentricularFibrillationRB->isChecked()){
         return ":/images/src/img/ventricular_fibrillation_ecg.png";
     }else{
         return ":/images/src/img/ventricular_teachycardia_ecg.png";
     }
-
     return "";
 }
 
@@ -181,6 +205,41 @@ CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
     }
 }
 
+void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void ()> performOperations, bool isSuccess) {
+    if(this->aed->getIsOn()){
+        // Check the btn
+        radioBtn->setChecked(true);
+        // Set the style sheet of the button to yellow
+        radioBtn->setStyleSheet(MainWindow::yellowRBIndicator);
+    }
+
+    // Create a timer
+    QTimer* timer = new QTimer(this);
+    // Create a step pointer
+    int* step = new int(0);
+
+    QObject::connect(timer, &QTimer::timeout, [this, step, timer, isSuccess, radioBtn, performOperations]() {
+
+        // Stop the timer after 3 iterations
+        if ((*step) == 3 || !this->aed->getIsOn()) {
+            // Stop and delete timer
+            timer->stop();
+            timer->deleteLater();
+
+            if(this->aed->getIsOn()) radioBtn->setStyleSheet((isSuccess) ? MainWindow::greenRBIndicator : MainWindow::redRBIndicator);
+            // preform operations after awaiting
+            performOperations();
+            // Delete the step
+            delete step;
+        } else {
+            (*step)++;
+        }
+    });
+
+    timer->setInterval(1000);
+    timer->start();
+}
+
 void MainWindow::placeAdultElectrodeBtn() {
     QString patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
@@ -189,6 +248,21 @@ void MainWindow::placeAdultElectrodeBtn() {
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(19, 101), imgPathToCardiac(patientCondition)));
     updateVictimInfo();
     placePadsUI(false);
+
+    indiciatorSwitch(ui->checkPads, [this] () {
+        if(!this->aed->getFaultyPadPlacment()){
+            // Tell the user to replace the pads
+            // Maybe disable everything but pad replace
+        }
+
+        indiciatorSwitch(ui->doNotTouchPatient, [this] () {
+            indiciatorSwitch(ui->analyzing, [this] () {
+                indiciatorSwitch(ui->shockableRhythm, [this] () {
+                    this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+            }, true);
+        }, true);
+    }, !this->aed->getFaultyPadPlacment());
 }
 
 void MainWindow::placeChildElectrodeBtn() {
@@ -199,6 +273,22 @@ void MainWindow::placeChildElectrodeBtn() {
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(5, 19), imgPathToCardiac(patientCondition)));
     updateVictimInfo();
     placePadsUI(true);
+    indiciatorSwitch(ui->checkPads, [this] () {
+        if(!this->aed->getFaultyPadPlacment()){
+            // Tell the user to replace the pads
+            // Maybe disable everything but pad replace
+        }
+
+        indiciatorSwitch(ui->doNotTouchPatient, [this] () {
+            indiciatorSwitch(ui->analyzing, [this] () {
+                indiciatorSwitch(ui->shockableRhythm, [this] () {
+                    this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+            }, true);
+        }, true);
+    }, !this->aed->getFaultyPadPlacment());
+
+    this->aed->setFaultyPadPlacement(false);
 }
 
 
@@ -249,11 +339,4 @@ void MainWindow::placePadsUI(bool isChild) {
     // Add the box to the scene
     this->instructionScene->addItem(currentPair->getUpperPad()->getPadRect());
     this->instructionScene->addItem(currentPair->getLowerPad()->getPadRect());
-
-    this->aed->setFaultyPadPlacement(false);
 }
-
-
-
-
-
