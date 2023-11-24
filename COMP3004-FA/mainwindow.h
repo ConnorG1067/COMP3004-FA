@@ -10,6 +10,8 @@
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include <QGraphicsOpacityEffect>
+#include <QThread>
+#include <QRadioButton>
 #include "AED.h"
 #include "Victim.h"
 #include "CardiacArrhythmias.h"
@@ -18,8 +20,7 @@
 #include "VentricularTachycardia.h"
 #include "ChildElectrode.h"
 #include "AdultElectrode.h"
-
-
+#include <functional>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,6 +40,13 @@ private:
     QGraphicsScene* waveFormScene;
     AED* aed;
     VoiceSystem* vs;
+
+    // QRadioButton Colors
+    static QString yellowRBIndicator;
+    static QString greenRBIndicator;
+    static QString redRBIndicator;
+    static QString blackUnfilledRBIndicator;
+
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
@@ -52,6 +60,7 @@ private:
     void updateVictimInfo();
     void placePadsUI(bool);
     ElectrodePadPair* generateElectrodePadPair(bool);
+    void indiciatorSwitch(QRadioButton*, std::function<void()>, bool);
 
 private slots:  
     void powerBtn();
