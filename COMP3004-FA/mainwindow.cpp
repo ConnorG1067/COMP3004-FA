@@ -17,10 +17,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     initializeStartingUI();
 
     this->aed = new AED();
-
-
-    //vs->analyzingHeartRhythmDoNotTouch();
-    vs->initiateAudioAndTextIntruction(QString("qrc:/audios/src/audios/analyzingHeartRhythmDoNotTouch.mp3"), QString("qrc:/images/src/img/analyzing.png"), QString("Analyzing Heart Rhythm. Do not touch patient."));
 }
 
 MainWindow::~MainWindow() {
