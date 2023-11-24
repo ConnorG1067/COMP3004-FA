@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>696</width>
-    <height>681</height>
+    <width>973</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -590,13 +590,23 @@ p, li { white-space: pre-wrap; }
 Electro Pad</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="textInstructions">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>300</y>
+      <width>201</width>
+      <height>111</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>696</width>
+     <width>973</width>
      <height>22</height>
     </rect>
    </property>

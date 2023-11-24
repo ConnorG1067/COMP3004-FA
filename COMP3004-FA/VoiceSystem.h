@@ -3,23 +3,31 @@
 
 #include <QObject>
 #include <QString>
+#include <QMediaPlayer>
 
 // In VoiceSystem.h
 class AED; // Forward declaration
 
-class VoiceSystem : QObject {
+class VoiceSystem : public QObject {
     Q_OBJECT;
 
     private:
-        QString msg;
+        QString currentInstruction;
         AED *aed;
+        QMediaPlayer* audioInstructions;
+
     public:
-        VoiceSystem();
-        VoiceSystem(QString msg);
-        QString getMessage();
-        void setMessage(QString *msg);
+        explicit VoiceSystem();
+        explicit VoiceSystem(QObject*);
+
+        QString getCurrentInstruction();
+        void setCurrentInstruction(QString);
+
+        // Message functions
+        void initiateAudioAndTextIntruction(QString, QString);
+
     signals:
-        void voiceUpdate(QString msg);
+        void textInstructionUpdatedForDisplay();
 };
 
 #endif // VOICESYSTEM_H

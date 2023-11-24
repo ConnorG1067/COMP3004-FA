@@ -38,6 +38,7 @@ private:
     QGraphicsScene* instructionScene;
     QGraphicsScene* waveFormScene;
     AED* aed;
+    VoiceSystem* vs;
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();
@@ -55,9 +56,9 @@ private:
 private slots:  
     void powerBtn();
     void failAEDSetupBtn();
+    void displayTextInstruction(QString);
     void placeAdultElectrodeBtn();
     void placeChildElectrodeBtn();
-
 
 };
 #endif // MAINWINDOW_H

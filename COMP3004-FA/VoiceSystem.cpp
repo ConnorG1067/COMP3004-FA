@@ -1,14 +1,22 @@
 #include <QString>
 #include "VoiceSystem.h"
 
-VoiceSystem::VoiceSystem() { this->msg = nullptr; }
-
-VoiceSystem::VoiceSystem(QString msg)
-    : msg(msg) {};
-
-void VoiceSystem::setMessage(QString *msg) {
-    this->msg = *msg;
-    emit this->voiceUpdate(*msg);
+VoiceSystem::VoiceSystem() {
+    this->setCurrentInstruction("");
+    this->audioInstructions = new QMediaPlayer();
 }
 
-QString VoiceSystem::getMessage() { return this->msg; }
+QString VoiceSystem::getCurrentInstruction(){
+    return this->currentInstruction;
+}
+
+void VoiceSystem::setCurrentInstruction(QString newInstruction){
+    this->currentInstruction = newInstruction;
+}
+
+void VoiceSystem::initiateAudioAndTextIntruction(QString audioPath, QString currentInstruction){
+    this->audioInstructions->setMedia(QUrl(audioPath));
+    this->audioInstructions->play();
+    this->setCurrentInstruction(currentInstruction);
+    emit this->textInstructionUpdatedForDisplay();
+}
