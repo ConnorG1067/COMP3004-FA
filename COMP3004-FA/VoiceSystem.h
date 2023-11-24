@@ -24,7 +24,7 @@ class VoiceSystem : public QObject {
         void setCurrentInstruction(QString);
 
         // Message functions
-        void initiateAudioAndTextIntruction(QString, QString);
+        void initiateAudioAndTextIntruction(QString, QString, QString);
 
     signals:
         void textInstructionUpdatedForDisplay();

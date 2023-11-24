@@ -5,16 +5,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     vs = new VoiceSystem();
 
+    this->instructionScene = new QGraphicsScene();
+    this->imageInstructionScene = new QGraphicsScene();
+    this->waveFormScene = new QGraphicsScene();
+    ui->instructionGraphics->setScene(this->instructionScene);
+    ui->imageInstructionGraphics->setScene(this->imageInstructionScene);
+    ui->waveFormGraphics->setScene(this->waveFormScene);
+
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
 
-    this->instructionScene = new QGraphicsScene();
-    this->waveFormScene = new QGraphicsScene();
-    ui->instructionGraphics->setScene(this->instructionScene);
-    ui->waveFormGraphics->setScene(this->waveFormScene);
-
     this->aed = new AED();
+
+
+    //vs->analyzingHeartRhythmDoNotTouch();
+    vs->initiateAudioAndTextIntruction(QString("qrc:/audios/src/audios/analyzingHeartRhythmDoNotTouch.mp3"), QString("qrc:/images/src/img/analyzing.png"), QString("Analyzing Heart Rhythm. Do not touch patient."));
 }
 
 MainWindow::~MainWindow() {
@@ -46,6 +52,7 @@ void MainWindow::initializeStartingUI() {
     ui->activeIndicator->setAutoExclusive(false);
 
     connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->vs->getCurrentInstruction());});
+    connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->displayIllustration();});
 }
 
 // Toggles the on and off buttons
@@ -136,6 +143,10 @@ void MainWindow::displayDummy() {
     ui->placeChildElectrodes->setEnabled(true);
 }
 
+void MainWindow::displayIllustration() {
+    placeImage(this->imageInstructionScene, ":/images/src/img/analyzing.png", 200, 100, 35, 0);
+    //placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
+}
 
 void MainWindow::placeImage(QGraphicsScene* scene, string path, int xSize, int ySize, int xPos, int yPos) {
     // Clear the scene

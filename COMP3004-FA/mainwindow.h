@@ -36,7 +36,9 @@ public:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* instructionScene;
+    QGraphicsScene* imageInstructionScene;
     QGraphicsScene* waveFormScene;
+
     AED* aed;
     VoiceSystem* vs;
     // function to setup connections-
@@ -44,6 +46,7 @@ private:
     void initializeStartingUI();
     void selfCheckUI(bool);
     void displayDummy();
+    void displayIllustration();
 
     // Helpers
     void placeImage(QGraphicsScene*, string, int, int, int, int);
