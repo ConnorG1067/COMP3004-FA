@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     ElectrodePadPair.cpp \
     Victim.cpp \
+    VoiceSystem.cpp \
     aed.cpp \
     main.cpp \
     mainwindow.cpp

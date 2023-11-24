@@ -24,11 +24,7 @@ class VoiceSystem : public QObject {
         void setCurrentInstruction(QString);
 
         // Message functions
-        void analyzingHeartRhythmDoNotTouch();
-        void applyPadsToPatientsBareChest();
-        void shockAdvisedChargingStandClear();
-        void shockOneDeliveredBeginCPR();
-
+        void initiateAudioAndTextIntruction(QString, QString);
 
     signals:
         void textInstructionUpdatedForDisplay();

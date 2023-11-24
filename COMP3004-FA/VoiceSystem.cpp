@@ -2,7 +2,7 @@
 #include "VoiceSystem.h"
 
 VoiceSystem::VoiceSystem() {
-    this->setCurrentInstruction("beans");
+    this->setCurrentInstruction("");
     this->audioInstructions = new QMediaPlayer();
 }
 
@@ -14,29 +14,9 @@ void VoiceSystem::setCurrentInstruction(QString newInstruction){
     this->currentInstruction = newInstruction;
 }
 
-void VoiceSystem::analyzingHeartRhythmDoNotTouch(){
-    this->audioInstructions->setMedia(QUrl("qrc:/src/audios/analyzingHeartRhythmDoNotTouch.mp3"));
+void VoiceSystem::initiateAudioAndTextIntruction(QString audioPath, QString currentInstruction){
+    this->audioInstructions->setMedia(QUrl(audioPath));
     this->audioInstructions->play();
-    this->setCurrentInstruction("Analyzing Heart Rhythm. Do not touch patient.");
-    emit this->textInstructionUpdatedForDisplay();
-}
-void VoiceSystem::applyPadsToPatientsBareChest(){
-    this->audioInstructions->setMedia(QUrl("qrc:/src/audios/applyPadsToPatientsBareChest.mp3"));
-    this->audioInstructions->play();
-    this->setCurrentInstruction("Apply Pads to the patient's bare chest");
-    emit this->textInstructionUpdatedForDisplay();
-}
-
-void VoiceSystem::shockAdvisedChargingStandClear(){
-    this->audioInstructions->setMedia(QUrl("qrc:/src/audios/shockAdvisedChargingStandClear.mp3"));
-    this->audioInstructions->play();
-    this->setCurrentInstruction("Shock advized. Charging. Stand Clear");
-    emit this->textInstructionUpdatedForDisplay();
-}
-
-void VoiceSystem::shockOneDeliveredBeginCPR(){
-    this->audioInstructions->setMedia(QUrl("qrc:/src/audios/shockOneDeliveredBeginCPR.mp3"));
-    this->audioInstructions->play();
-    this->setCurrentInstruction("Shock one delivered. Begin CPR now.");
+    this->setCurrentInstruction(currentInstruction);
     emit this->textInstructionUpdatedForDisplay();
 }
