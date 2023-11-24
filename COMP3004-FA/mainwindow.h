@@ -37,7 +37,9 @@ public:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* instructionScene;
+    QGraphicsScene* imageInstructionScene;
     QGraphicsScene* waveFormScene;
+
     AED* aed;
     VoiceSystem* vs;
 
@@ -54,9 +56,9 @@ private:
     void displayDummy();
 
     // Helpers
-    void placeImage(QGraphicsScene*, string, int, int, int, int);
-    string determineCondition();
-    CardiacArrhythmias* imgPathToCardiac(string);
+    void placeImage(QGraphicsScene*, QString, int, int, int, int);
+    QString determineCondition();
+    CardiacArrhythmias* imgPathToCardiac(QString);
     void updateVictimInfo();
     void placePadsUI(bool);
     ElectrodePadPair* generateElectrodePadPair(bool);
