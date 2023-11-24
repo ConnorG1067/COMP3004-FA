@@ -13,26 +13,33 @@
 
 using namespace std;
 
-class AED : QObject{
+class AED : public QObject{
     private:
         ElectrodePadPair* electrodePads;
-        VoiceSystem *voiceSystem;
-        Victim *victim;
+        Victim* victim;
 
         int batteryLevel = 100;
         bool isOn = false;
         bool correctPadPos = false;
         bool isFunctional = true;
         bool faultyPadPlacement = false;
+        bool shockable = false;
+
     public:
         AED();
+
+        void setShockable(bool);
+        bool getShockable();
+
+        void shock();
+
         bool powerOn();
         void monitorLoop();
-        void shock();
 
         // Self Check
         bool selfCheck();
 
+        VoiceSystem* voiceSystem;
 
         // Getters & Setters
         bool getIsOn() { return this->isOn; }

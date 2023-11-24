@@ -40,7 +40,6 @@ private:
     QGraphicsScene* waveFormScene;
 
     AED* aed;
-    VoiceSystem* vs;
     // function to setup connections-
     void initializeBtns();
     void initializeStartingUI();

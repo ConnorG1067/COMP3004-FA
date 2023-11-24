@@ -2,6 +2,7 @@
 
 AED::AED() {
     this->electrodePads = new ElectrodePadPair(new AdultElectrode(), new AdultElectrode());
+    this->voiceSystem = new VoiceSystem();
 }
 
 bool AED::selfCheck() {
@@ -18,5 +19,28 @@ bool AED::powerOn() {
         return true;
     }else{
        return false;
+    }
+}
+
+void AED::setShockable(bool newShockable){ this->shockable = newShockable; }
+bool AED::getShockable(){ return shockable; }
+
+void AED::shock() {
+    if(this->getShockable()) {
+        this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
+
+        /*
+        // Create timer for flashing shock button
+        QTimer* flashTimer = new QTimer(this);
+        // Create step pointer
+        int* step = new int(0);
+
+        QObject::connect(flashTimer, &QTimer::timeout [this, step, flashTimer](){
+            this->
+        });*/
+
+
+    }else{
+        qDebug() << "patient not shockable";
     }
 }

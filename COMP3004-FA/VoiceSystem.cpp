@@ -19,15 +19,15 @@ QString VoiceSystem::getCurrentIllustrationPath(){
 }
 
 void VoiceSystem::setCurrentIllustrationPath(QString newIllustrationPath){
-    this->currentInstruction = newIllustrationPath;
+    this->currentIllustrationPath = newIllustrationPath;
 }
 
 void VoiceSystem::initiateAudioAndTextIntruction(QString audioPath, QString illustrationPath, QString currentInstruction){
     this->audioInstructions->setMedia(QUrl(audioPath));
     this->audioInstructions->play();
 
-    this->setCurrentInstruction(currentInstruction);
     this->setCurrentIllustrationPath(illustrationPath);
+    this->setCurrentInstruction(currentInstruction);
 
     emit this->textInstructionUpdatedForDisplay();
 }
