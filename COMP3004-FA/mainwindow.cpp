@@ -15,10 +15,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->waveFormGraphics->setScene(this->waveFormScene);
 
     this->aed = new AED();
-
-
-    //vs->analyzingHeartRhythmDoNotTouch();
-    vs->initiateAudioAndTextIntruction(QString("qrc:/audios/src/audios/analyzingHeartRhythmDoNotTouch.mp3"), QString("Analyzing Heart Rhythm. Do not touch patient."));
 }
 
 MainWindow::~MainWindow() {
