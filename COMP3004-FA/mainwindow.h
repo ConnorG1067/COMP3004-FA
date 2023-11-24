@@ -46,7 +46,6 @@ private:
     void initializeStartingUI();
     void selfCheckUI(bool);
     void displayDummy();
-    void displayIllustration();
 
     // Helpers
     void placeImage(QGraphicsScene*, QString, int, int, int, int);

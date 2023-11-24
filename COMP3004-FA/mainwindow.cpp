@@ -139,11 +139,6 @@ void MainWindow::displayDummy() {
     ui->placeChildElectrodes->setEnabled(true);
 }
 
-void MainWindow::displayIllustration() {
-    placeImage(this->imageInstructionScene, ":/images/src/img/analyzing.png", 200, 100, 35, 0);
-    //placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
-}
-
 void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int ySize, int xPos, int yPos) {
     // Clear the scene
     scene->clear();
