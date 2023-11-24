@@ -14,5 +14,8 @@
         <file>src/img/exposeBareChest.png</file>
         <file>src/img/ifChildPressButton.png</file>
         <file>src/img/openPadPackage.png</file>
+	<file>src/img/nsr_ecg.png</file>
+	<file>src/img/ventricular_fibrillation_ecg.png</file>
+	<file>src/img/ventricular_teachycardia_ecg.png</file>
     </qresource>
 </RCC>
