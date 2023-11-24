@@ -646,7 +646,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>Misplace 
+     <string>Misplace
 Electro Pad</string>
     </property>
    </widget>
@@ -690,8 +690,8 @@ Electro Pad</string>
      <rect>
       <x>690</x>
       <y>420</y>
-      <width>181</width>
-      <height>111</height>
+      <width>201</width>
+      <height>151</height>
      </rect>
     </property>
    </widget>

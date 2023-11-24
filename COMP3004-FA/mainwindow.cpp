@@ -9,7 +9,7 @@ QString MainWindow::blackUnfilledRBIndicator = "QRadioButton {color:black;}QRadi
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    vs = new VoiceSystem();
+    this->aed = new AED();
 
     this->instructionScene = new QGraphicsScene();
     this->imageInstructionScene = new QGraphicsScene();
@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
-
-    this->aed = new AED();
 }
 
 MainWindow::~MainWindow() {
@@ -39,6 +37,8 @@ void MainWindow::initializeBtns(){
     });
 
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
+
+    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setShockable(true); this->aed->shock();});
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -54,6 +54,8 @@ void MainWindow::initializeStartingUI() {
     ui->batteryIndicator->setAutoExclusive(false);
     ui->activeIndicator->setAutoExclusive(false);
 
+    connect(this->aed->voiceSystem, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->voiceSystem->getCurrentInstruction());});
+    connect(this->aed->voiceSystem, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->voiceSystem->getCurrentIllustrationPath()), 200, 100, 35, 0); });
     ui->checkPads->setAutoExclusive(false);
     ui->doNotTouchPatient->setAutoExclusive(false);
     ui->analyzing->setAutoExclusive(false);
@@ -63,9 +65,6 @@ void MainWindow::initializeStartingUI() {
     ui->doNotTouchPatient->setDisabled(true);
     ui->analyzing->setDisabled(true);
     ui->shockableRhythm->setDisabled(true);
-
-    connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->vs->getCurrentInstruction());});
-    connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(vs->getCurrentIllustrationPath()), 200, 100, 35, 0); });
 }
 
 // Toggles the on and off buttons
