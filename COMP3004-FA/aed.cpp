@@ -22,11 +22,8 @@ bool AED::powerOn() {
     }
 }
 
-void AED::setShockable(bool newShockable){ this->shockable = newShockable; }
-bool AED::getShockable(){ return shockable; }
-
 void AED::shock() {
-    if(this->getShockable()) {
+    if(this->getIsReadyForShock()) {
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
 
         /*

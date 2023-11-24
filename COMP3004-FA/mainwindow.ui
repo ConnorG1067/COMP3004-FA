@@ -685,6 +685,7 @@ Electro Pad</string>
     <property name="text">
      <string>Normal Sinus Rhythm</string>
     </property>
+   </widget>
    <widget class="QGraphicsView" name="imageInstructionGraphics">
     <property name="geometry">
      <rect>

@@ -38,7 +38,7 @@ void MainWindow::initializeBtns(){
 
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
 
-    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setShockable(true); this->aed->shock();});
+    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setIsReadyForShock(true); this->aed->shock();});
 }
 
 // Function that is ran on the UI contructor to update UI

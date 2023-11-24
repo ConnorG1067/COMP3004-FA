@@ -27,9 +27,6 @@ class AED : public QObject{
     public:
         AED();
 
-        void setShockable(bool);
-        bool getShockable();
-
         void shock();
 
         bool powerOn();
