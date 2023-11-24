@@ -5,14 +5,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     vs = new VoiceSystem();
 
+    this->instructionScene = new QGraphicsScene();
+    this->imageInstructionScene = new QGraphicsScene();
+    this->waveFormScene = new QGraphicsScene();
+    ui->instructionGraphics->setScene(this->instructionScene);
+    ui->imageInstructionGraphics->setScene(this->imageInstructionScene);
+    ui->waveFormGraphics->setScene(this->waveFormScene);
+
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
-
-    this->instructionScene = new QGraphicsScene();
-    this->waveFormScene = new QGraphicsScene();
-    ui->instructionGraphics->setScene(this->instructionScene);
-    ui->waveFormGraphics->setScene(this->waveFormScene);
 
     this->aed = new AED();
 }
@@ -46,6 +48,7 @@ void MainWindow::initializeStartingUI() {
     ui->activeIndicator->setAutoExclusive(false);
 
     connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->vs->getCurrentInstruction());});
+    connect(this->vs, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(vs->getCurrentIllustrationPath()), 200, 100, 35, 0); });
 }
 
 // Toggles the on and off buttons
@@ -136,13 +139,12 @@ void MainWindow::displayDummy() {
     ui->placeChildElectrodes->setEnabled(true);
 }
 
-
-void MainWindow::placeImage(QGraphicsScene* scene, string path, int xSize, int ySize, int xPos, int yPos) {
+void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int ySize, int xPos, int yPos) {
     // Clear the scene
     scene->clear();
 
     // Create an image and scale it
-    QPixmap image(QString::fromStdString(path));
+    QPixmap image(path);
     image = image.scaled(QSize(xSize, ySize), Qt::KeepAspectRatio);
 
     // Add the pixmapItem and set its positions
@@ -152,7 +154,7 @@ void MainWindow::placeImage(QGraphicsScene* scene, string path, int xSize, int y
 }
 
 // Determines the condition of the patient
-string MainWindow::determineCondition() {
+QString MainWindow::determineCondition() {
     // Generates a random number from 0 to 9
     int randomNumber = QRandomGenerator::global()->bounded(10);
     // 0 - 5 NSR 60%
@@ -169,7 +171,7 @@ string MainWindow::determineCondition() {
     return "";
 }
 
-CardiacArrhythmias* MainWindow::imgPathToCardiac(string imgPath) {
+CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
     if(imgPath == ":/images/src/img/ventricular_teachycardia_ecg.png"){
         return new VentricularTachycardia();
     }else if(imgPath == ":/images/src/img/ventricular_fibrillation_ecg.png"){
@@ -180,7 +182,7 @@ CardiacArrhythmias* MainWindow::imgPathToCardiac(string imgPath) {
 }
 
 void MainWindow::placeAdultElectrodeBtn() {
-    string patientCondition = determineCondition();
+    QString patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
     // Set the aed to a victim aged from 19-100, with a random condition
@@ -190,7 +192,7 @@ void MainWindow::placeAdultElectrodeBtn() {
 }
 
 void MainWindow::placeChildElectrodeBtn() {
-    string patientCondition = determineCondition();
+    QString patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
     // Set the aed to a victim aged from 5-18, with a random condition
