@@ -22,22 +22,14 @@ bool AED::powerOn() {
     }
 }
 
-void AED::shock() {
+void AED::setIsReadyForShock(bool isReady){
     if(this->getIsReadyForShock()) {
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
-
-        /*
-        // Create timer for flashing shock button
-        QTimer* flashTimer = new QTimer(this);
-        // Create step pointer
-        int* step = new int(0);
-
-        QObject::connect(flashTimer, &QTimer::timeout [this, step, flashTimer](){
-            this->
-        });*/
-
-
-    }else{
-        qDebug() << "patient not shockable";
+        emit this->flashShockButtonSignal();
     }
+    this->readyForShock = isReady;
+}
+
+void AED::shock() {
+    emit this->shockSignal();
 }

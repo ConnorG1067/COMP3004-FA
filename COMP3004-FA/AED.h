@@ -4,6 +4,7 @@
 #include <QObject>
 #include <ElectrodePad.h>
 #include <vector>
+
 #include "VoiceSystem.h"
 #include "Victim.h"
 #include "ElectrodePadPair.h"
@@ -11,9 +12,9 @@
 #include "ChildElectrode.h"
 
 
-using namespace std;
-
 class AED : public QObject{
+    Q_OBJECT;
+
     private:
         ElectrodePadPair* electrodePads;
         Victim* victim;
@@ -24,8 +25,9 @@ class AED : public QObject{
         bool isFunctional = true;
         bool faultyPadPlacement = false;
         bool readyForShock = false;
+        bool shockAdministered = false;
     public:
-        AED();
+        explicit AED();
 
         void shock();
 
@@ -45,10 +47,12 @@ class AED : public QObject{
         bool getIsFunctional() { return this->isFunctional; }
         bool getFaultyPadPlacment() { return this->faultyPadPlacement; }
         ElectrodePadPair* getElectrodePadPair() { return this->electrodePads; }
+        bool getShockAdministered() { return this->shockAdministered; }
 
         Victim* getVictim() { return this->victim; }
 
-        void setIsReadyForShock(bool isReady) { this->readyForShock = isReady; }
+        void setIsReadyForShock(bool isReady);
+
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
@@ -56,9 +60,12 @@ class AED : public QObject{
         void setFaultyPadPlacement(bool faulty) { this->faultyPadPlacement = faulty; }
         void setVictim(Victim *newVictim) { this->victim = newVictim; };
         void setElectrodePadPair(ElectrodePadPair* newPair) { this->electrodePads = newPair; }
+        void setShockAdministered(bool newShockAdministered) { this->shockAdministered = newShockAdministered; }
 
     signals:
         void arythmiaDetected();
+        void flashShockButtonSignal();
+        void shockSignal();
 };
 
 #endif // AED_H
