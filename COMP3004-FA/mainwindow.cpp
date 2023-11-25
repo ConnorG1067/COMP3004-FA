@@ -25,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
-
-    this->aed->setIsReadyForShock(true);
-
 }
 
 MainWindow::~MainWindow() {
@@ -44,7 +41,6 @@ void MainWindow::initializeBtns(){
 
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
 
-
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
 
@@ -59,6 +55,7 @@ void MainWindow::initializeBtns(){
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
 
+    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setIsReadyForShock(true); this->aed->shock();});
 }
 
 // Function that is ran on the UI contructor to update UI
