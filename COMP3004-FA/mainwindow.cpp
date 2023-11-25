@@ -76,6 +76,9 @@ void MainWindow::initializeStartingUI() {
     ui->analyzing->setAutoExclusive(false);
     ui->shockableRhythm->setAutoExclusive(false);
 
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 200, 100, 35, 0); });
+
     ui->checkPads->setDisabled(true);
     ui->doNotTouchPatient->setDisabled(true);
     ui->analyzing->setDisabled(true);
