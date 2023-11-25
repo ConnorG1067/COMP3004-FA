@@ -43,6 +43,9 @@ private:
     AED* aed;
     VoiceSystem* vs;
 
+    // Timers
+    QTimer* flashTimer;
+
     // QRadioButton Colors
     static QString yellowRBIndicator;
     static QString greenRBIndicator;
@@ -70,6 +73,7 @@ private slots:
     void displayTextInstruction(QString);
     void placeAdultElectrodeBtn();
     void placeChildElectrodeBtn();
+    void flashShockButton();
 
 };
 #endif // MAINWINDOW_H

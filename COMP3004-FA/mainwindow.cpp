@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     this->aed = new AED();
 
+    flashTimer = new QTimer();
+    this->flashTimer->setInterval(100);
+
     this->instructionScene = new QGraphicsScene();
     this->imageInstructionScene = new QGraphicsScene();
     this->waveFormScene = new QGraphicsScene();
@@ -22,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons
     initializeBtns();
     initializeStartingUI();
+
+    this->aed->setIsReadyForShock(true);
+
 }
 
 MainWindow::~MainWindow() {
@@ -38,7 +44,21 @@ void MainWindow::initializeBtns(){
 
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
 
-    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setShockable(true); this->aed->shock();});
+
+    // Connect shock button to the shock function
+    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+
+    // Connect flash shock button timer to timer function
+    QObject::connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
+
+    // Connect aed to flashShockButton function so that the aed may update the ui with the flashing shock button
+    connect(this->aed, &AED::flashShockButtonSignal, this, [this](){
+        flashTimer->start();
+    });
+
+    // TODO: This may be redundant, could do this code in aed.cpp
+    connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
+
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -237,6 +257,17 @@ void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void ()>
 
     timer->setInterval(1000);
     timer->start();
+}
+
+void MainWindow::flashShockButton(){
+    if(!this->aed->getShockAdministered()){
+        ui->shock->setStyleSheet(ui->shock->styleSheet() == "" ? "background-color: red" : "");
+    }else{
+        ui->shock->setStyleSheet("");
+        this->aed->setShockAdministered(false);
+        this->flashTimer->stop();
+        this->flashTimer->deleteLater();
+    }
 }
 
 void MainWindow::placeAdultElectrodeBtn() {
