@@ -1,67 +1,73 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+// Default Indicator Style Sheets
 QString MainWindow::yellowRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:yellow;border:2px solid black;}";
 QString MainWindow::redRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:red;border:2px solid black;}";
 QString MainWindow::greenRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:checked {background-color:green;border:2px solid black;}";
 QString MainWindow::blackUnfilledRBIndicator = "QRadioButton {color:black;}QRadioButton::indicator {width:10px;height:10px;border-radius:7px;}QRadioButton::indicator:unchecked {border:2px solid black;}";
 
-
+// MainWindow Constructor
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    // Allocating memory for an AED
     this->aed = new AED();
 
+    // Creating a timer
     flashTimer = new QTimer();
     this->flashTimer->setInterval(100);
 
+    // Creating multiple scenes from the class definition
     this->instructionScene = new QGraphicsScene();
     this->imageInstructionScene = new QGraphicsScene();
     this->waveFormScene = new QGraphicsScene();
+
+    // Set the scene of each QGraphicsScene
     ui->instructionGraphics->setScene(this->instructionScene);
     ui->imageInstructionGraphics->setScene(this->imageInstructionScene);
     ui->waveFormGraphics->setScene(this->waveFormScene);
+
+    // Set the default victim condition to NSR
     ui->normalSinusRhythmRB->setChecked(true);
 
-    // Initialize Buttons
+    // Initialize Buttons & Starting UI
     initializeBtns();
     initializeStartingUI();
 }
 
+// Deconstructor for MainWindow
 MainWindow::~MainWindow() {
     delete ui;
 }
 
+// Initalize all buttons
 void MainWindow::initializeBtns(){
+    // Place child and adult electrodes
     connect(ui->placeAdultElectrodes, SIGNAL(released()), this, SLOT(placeAdultElectrodeBtn()));
     connect(ui->placeChildElectrodes, SIGNAL(released()), this, SLOT(placeChildElectrodeBtn()));
+    // On and off btn
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
-    connect(ui->misPlacePad, &QPushButton::released, this, [this] () {
-        this->aed->setFaultyPadPlacement(true);
-    });
-
+    // Sets the next pad placement to the incorrect position
+    connect(ui->misPlacePad, &QPushButton::released, this, [this] () {this->aed->setFaultyPadPlacement(true);});
+    // Sets the next setup to a fail
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
-
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
-
     // Connect flash shock button timer to timer function
     QObject::connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
-
     // Connect aed to flashShockButton function so that the aed may update the ui with the flashing shock button
-    connect(this->aed, &AED::flashShockButtonSignal, this, [this](){
-        flashTimer->start();
-    });
-
+    connect(this->aed, &AED::flashShockButtonSignal, this, [this](){ flashTimer->start(); });
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
-
+    // Shock btn functionality
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
 }
 
 // Function that is ran on the UI contructor to update UI
 void MainWindow::initializeStartingUI() {
 
-    // Setting up active and battery indicator DON'T TOUCH!
+    // Setting up active and battery indicator
     ui->batteryIndicator->setDisabled(true);
     ui->activeIndicator->setDisabled(true);
 
@@ -76,9 +82,11 @@ void MainWindow::initializeStartingUI() {
     ui->analyzing->setAutoExclusive(false);
     ui->shockableRhythm->setAutoExclusive(false);
 
+    // Initalize voice system
     connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
     connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 200, 100, 35, 0); });
 
+    // Set the process radio buttons to disabled
     ui->checkPads->setDisabled(true);
     ui->doNotTouchPatient->setDisabled(true);
     ui->analyzing->setDisabled(true);
@@ -91,22 +99,29 @@ void MainWindow::powerBtn() {
     ui->activeIndicator->setChecked(!ui->activeIndicator->isChecked());
     ui->batteryIndicator->setChecked(!ui->batteryIndicator->isChecked());
 
+    // If it is not on
     if(!this->aed->getIsOn()) {
-        selfCheckUI(this->aed->selfCheck());
+        // Do a self check and pass the value into the selfCheckUI function
+        selfCheckUI(this->aed->getIsFunctional());
     }else{
+        // Clear both scenes
         this->instructionScene->clear();
         this->waveFormScene->clear();
 
+        // Reset the radio btns to their default positions
         resetRadioBtns();
 
+        // Disable the adult and child electrode btns
         ui->placeAdultElectrodes->setEnabled(false);
         ui->placeChildElectrodes->setEnabled(false);
     }
-
+    // Set us on to the negation of itself
     this->aed->setIsOn(!this->aed->getIsOn());
 }
 
+// Resets the radio btns to their original state
 void MainWindow::resetRadioBtns(){
+    // Set the stylesheets to the defualt blackUnfilledRBIndicator
     ui->checkPads->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
     ui->doNotTouchPatient->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
     ui->analyzing->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
@@ -154,7 +169,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
 
     // Create and animation
     QPropertyAnimation *animation = new QPropertyAnimation(progressBar, "value");
-    animation->setDuration(3000); // Animation duration in milliseconds
+    animation->setDuration(3000);
     animation->setStartValue(0);
     animation->setEndValue(100);
 
@@ -181,8 +196,9 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     animation->start();
 }
 
-
+// Displays the dummy
 void MainWindow::displayDummy() {
+    // Place the dummy.jpg image on the instruction scene
     placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
 
     // Make the electrodes button enabled
@@ -190,6 +206,7 @@ void MainWindow::displayDummy() {
     ui->placeChildElectrodes->setEnabled(true);
 }
 
+// Place btn function
 void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int ySize, int xPos, int yPos) {
     // Clear the scene
     scene->clear();
@@ -206,16 +223,19 @@ void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int 
 
 // Determines the condition of the patient
 QString MainWindow::determineCondition() {
+    // If the normalSinusRhythmRB is checked then return the img path
     if(ui->normalSinusRhythmRB->isChecked()){
         return ":/images/src/img/nsr_ecg.png";
-    }else if(ui->VentricularFibrillationRB->isChecked()){
+    // If the VentricularFibrillationRB is checked then return the img path
+    }else if(ui->ventricularFibrillationRB->isChecked()){
         return ":/images/src/img/ventricular_fibrillation_ecg.png";
+    // Otherwise return the ventricular teachycardia path
     }else{
         return ":/images/src/img/ventricular_teachycardia_ecg.png";
     }
-    return "";
 }
 
+// Based on an image path return a child class of CardiacArrhythmias
 CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
     if(imgPath == ":/images/src/img/ventricular_teachycardia_ecg.png"){
         return new VentricularTachycardia();
@@ -226,7 +246,9 @@ CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
     }
 }
 
+// Takes in a radio button, two functions, boolean
 void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void()> performOperations, std::function<void()> audioOperations, bool isSuccess) {
+    // If the aed is on
     if(this->aed->getIsOn()){
         // Check the btn
         radioBtn->setChecked(true);
@@ -242,115 +264,158 @@ void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void()> 
 
     QObject::connect(timer, &QTimer::timeout, [this, step, timer, isSuccess, radioBtn, performOperations, audioOperations]() {
 
-        // Stop the timer after 3 iterations
+        // Stop the timer after 3 iterations or the aed is turned off
         if ((*step) == 3 || !this->aed->getIsOn()) {
             // Stop and delete timer
             timer->stop();
             timer->deleteLater();
-
+            // Only if the aed is still on determine success or failure
             if(this->aed->getIsOn()) radioBtn->setStyleSheet((isSuccess) ? MainWindow::greenRBIndicator : MainWindow::redRBIndicator);
             // preform operations after awaiting
             performOperations();
             // Delete the step
             delete step;
         } else {
-
+            // Only increment the step value while the audio system is not playing
+            // This ensures that the full audio file is read until the next one is requested
             if(!(this->aed->getVoiceSystem()->getAudioInstructions()->state() == QMediaPlayer::PlayingState)){
                 (*step)++;
             }
         }
     });
 
+    // Start the timer with an interval of 1000ms
     timer->setInterval(1000);
     timer->start();
 }
 
+// Flash the shock btn
 void MainWindow::flashShockButton(){
+    // If there is not a shock to administer set it to red if not red and not to red if red
     if(!this->aed->getShockAdministered()){
         ui->shock->setStyleSheet(ui->shock->styleSheet() == "" ? "background-color: red" : "");
+    // Otherwise
     }else{
+        // Set the style sheet to empty
         ui->shock->setStyleSheet("");
+        // Set the shock to false
         this->aed->setShockAdministered(false);
+        // Delete and stop the timer
         this->flashTimer->stop();
         this->flashTimer->deleteLater();
     }
 }
 
+// Place the adult electrode
 void MainWindow::placeAdultElectrodeBtn() {
+    // Reset all btn states
     resetRadioBtns();
+    // Determine the patient condition
     QString patientCondition = determineCondition();
+    // Place the condition image on the waveFormScene
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
     // Set the aed to a victim aged from 19-100, with a random condition
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(19, 101), imgPathToCardiac(patientCondition)));
+    // Updates the victim info UI
     updateVictimInfo();
+    // Place the pads with false for the parameter isChild
     placePadsUI(false);
-
+    // Calls the progress indicators with lambdas
     callIndicatorSwitchLambdas();
 }
 
+// Place the child electrodes
 void MainWindow::placeChildElectrodeBtn() {
+    // Determine the patient condition
     QString patientCondition = determineCondition();
+    // Place the condition image on the waveFormScene
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
     // Set the aed to a victim aged from 5-18, with a random condition
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(5, 19), imgPathToCardiac(patientCondition)));
+    // Updates the victim info UI
     updateVictimInfo();
+    // Place the pads with false for the parameter isChild
     placePadsUI(true);
-
+    // Calls the progress indicators with lambdas
     callIndicatorSwitchLambdas();
 }
 
+// Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
+    // Check the pads
     indiciatorSwitch(ui->checkPads, [this] () {
+        // If the pads are not faulty then proced
         if(!this->aed->getFaultyPadPlacment()) {
+            // Don't touch the patient
             indiciatorSwitch(ui->doNotTouchPatient, [this] () {
+                // Analyze the patient
                 indiciatorSwitch(ui->analyzing, [this] () {
+                    // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
                     indiciatorSwitch(ui->shockableRhythm, [this] () {
+                        // Set the aed device is ready to shock if the condition of the victim is not normal sinus rhythm
                         this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
                     }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
                 }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, true);
             }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
         }
+        // Set the faulty pad placement to false
         this->aed->setFaultyPadPlacement(false);
     }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction((!this->aed->getFaultyPadPlacment()) ? "qrc:/audios/src/audios/PadCheckSuccess.mp3" : "qrc:/audios/src/audios/PadCheckFailed.mp3", ":/images/src/img/attachPads.png", "Apply Pads"); }, !this->aed->getFaultyPadPlacment());
 }
 
+// Updates the UI for the victim info
 void MainWindow::updateVictimInfo() {
+    // Set the name, age, and condition labels
     ui->nameLabel->setText(QString::fromStdString(this->aed->getVictim()->getName()));
     ui->ageLabel->setText(QString::number(this->aed->getVictim()->getAge()));
     ui->conditionLabel->setText(this->aed->getVictim()->getCondition()->getConditionName());
 }
 
+// Generate and ElectrodePadPair
 ElectrodePadPair* MainWindow::generateElectrodePadPair(bool isChild){
     ElectrodePadPair* currentPair;
+    // If the call is for a child
     if(isChild){
+        // If the pad placement is faulty
         if(this->aed->getFaultyPadPlacment()){
+            // Set the Pair to two child electrodes with random incorrect positions
             currentPair = new ElectrodePadPair(
                         new ChildElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121)),
                         new ChildElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121))
                     );
+        // Otherwise get correct child pad placement
         }else{
             currentPair = new ElectrodePadPair(new ChildElectrode(60, 70), new ChildElectrode(114, 131));
         }
+    // If it is an adult
     }else{
+        // Check if the pad placement is faulty
         if(this->aed->getFaultyPadPlacment()){
+            // Place faulty adult pads as the ElectrodePadPair
             currentPair = new ElectrodePadPair(
                         new AdultElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121)),
                         new AdultElectrode(QRandomGenerator::global()->bounded(70, 101), QRandomGenerator::global()->bounded(80, 121))
                     );
+        // Give the correct position
         }else{
+            // Set the pair to the correct position with two adult electrode pad pairs
             currentPair = new ElectrodePadPair(new AdultElectrode(60, 70), new AdultElectrode(114, 131));
         }
     }
 
+    // Return the currentPair
     return currentPair;
 }
 
+// Place the pads on the victim
 void MainWindow::placePadsUI(bool isChild) {
+    // If the upper pad is on the scene remove it
     if(this->instructionScene->items().contains(this->aed->getElectrodePadPair()->getUpperPad()->getPadRect())){
         this->instructionScene->removeItem(this->aed->getElectrodePadPair()->getUpperPad()->getPadRect());
     }
+    // If the lower pad is on the scene remove it
     if(this->instructionScene->items().contains(this->aed->getElectrodePadPair()->getLowerPad()->getPadRect())){
         this->instructionScene->removeItem(this->aed->getElectrodePadPair()->getLowerPad()->getPadRect());
     }

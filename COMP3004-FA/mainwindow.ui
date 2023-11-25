@@ -374,7 +374,7 @@ QRadioButton::indicator:unchecked {
      <string>Battery</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="VentricularFibrillationRB">
+   <widget class="QRadioButton" name="ventricularFibrillationRB">
     <property name="geometry">
      <rect>
       <x>420</x>
