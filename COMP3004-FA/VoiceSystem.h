@@ -27,6 +27,8 @@ class VoiceSystem : public QObject {
         QString getCurrentIllustrationPath();
         void setCurrentIllustrationPath(QString);
 
+        QMediaPlayer* getAudioInstructions() { return this->audioInstructions; }
+
         // Message functions
         void initiateAudioAndTextIntruction(QString, QString, QString);
 

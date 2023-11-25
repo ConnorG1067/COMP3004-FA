@@ -12,12 +12,13 @@
 #include "ChildElectrode.h"
 
 
-class AED : public QObject{
+class AED : public QObject {
     Q_OBJECT;
 
     private:
         ElectrodePadPair* electrodePads;
         Victim* victim;
+        VoiceSystem* voiceSystem;
 
         int batteryLevel = 100;
         bool isOn = false;
@@ -26,9 +27,9 @@ class AED : public QObject{
         bool faultyPadPlacement = false;
         bool readyForShock = false;
         bool shockAdministered = false;
+
     public:
         explicit AED();
-
         void shock();
 
         bool powerOn();
@@ -36,8 +37,6 @@ class AED : public QObject{
 
         // Self Check
         bool selfCheck();
-
-        VoiceSystem* voiceSystem;
 
         // Getters & Setters
         bool getIsOn() { return this->isOn; }
@@ -50,6 +49,7 @@ class AED : public QObject{
         bool getShockAdministered() { return this->shockAdministered; }
 
         Victim* getVictim() { return this->victim; }
+        VoiceSystem* getVoiceSystem() { return this->voiceSystem; }
 
         void setIsReadyForShock(bool isReady);
 

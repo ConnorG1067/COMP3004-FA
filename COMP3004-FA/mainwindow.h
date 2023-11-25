@@ -41,7 +41,6 @@ private:
     QGraphicsScene* waveFormScene;
 
     AED* aed;
-    VoiceSystem* vs;
 
     // Timers
     QTimer* flashTimer;
@@ -57,15 +56,17 @@ private:
     void initializeStartingUI();
     void selfCheckUI(bool);
     void displayDummy();
+    void callIndicatorSwitchLambdas();
 
     // Helpers
+    void resetRadioBtns();
     void placeImage(QGraphicsScene*, QString, int, int, int, int);
     QString determineCondition();
     CardiacArrhythmias* imgPathToCardiac(QString);
     void updateVictimInfo();
     void placePadsUI(bool);
     ElectrodePadPair* generateElectrodePadPair(bool);
-    void indiciatorSwitch(QRadioButton*, std::function<void()>, bool);
+    void indiciatorSwitch(QRadioButton*, std::function<void()>, std::function<void()>, bool);
 
 private slots:  
     void powerBtn();
