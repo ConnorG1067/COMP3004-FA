@@ -23,7 +23,7 @@ bool AED::powerOn() {
 }
 
 void AED::setIsReadyForShock(bool isReady){
-    if(this->getIsReadyForShock()) {
+    if(isReady) {
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
         emit this->flashShockButtonSignal();
     }

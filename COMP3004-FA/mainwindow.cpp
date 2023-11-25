@@ -55,7 +55,7 @@ void MainWindow::initializeBtns(){
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
 
-    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->setIsReadyForShock(true); this->aed->shock();});
+    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -71,8 +71,6 @@ void MainWindow::initializeStartingUI() {
     ui->batteryIndicator->setAutoExclusive(false);
     ui->activeIndicator->setAutoExclusive(false);
 
-    connect(this->aed->voiceSystem, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->voiceSystem->getCurrentInstruction());});
-    connect(this->aed->voiceSystem, &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->voiceSystem->getCurrentIllustrationPath()), 200, 100, 35, 0); });
     ui->checkPads->setAutoExclusive(false);
     ui->doNotTouchPatient->setAutoExclusive(false);
     ui->analyzing->setAutoExclusive(false);
@@ -96,17 +94,7 @@ void MainWindow::powerBtn() {
         this->instructionScene->clear();
         this->waveFormScene->clear();
 
-        // Set to the default style
-        ui->checkPads->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
-        ui->doNotTouchPatient->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
-        ui->analyzing->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
-        ui->shockableRhythm->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
-
-        //Uncheck all radio btns
-        ui->checkPads->setChecked(false);
-        ui->doNotTouchPatient->setChecked(false);
-        ui->analyzing->setChecked(false);
-        ui->shockableRhythm->setChecked(false);
+        resetRadioBtns();
 
         ui->placeAdultElectrodes->setEnabled(false);
         ui->placeChildElectrodes->setEnabled(false);
@@ -114,6 +102,20 @@ void MainWindow::powerBtn() {
 
     this->aed->setIsOn(!this->aed->getIsOn());
 }
+
+void MainWindow::resetRadioBtns(){
+    ui->checkPads->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+    ui->doNotTouchPatient->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+    ui->analyzing->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+    ui->shockableRhythm->setStyleSheet(MainWindow::blackUnfilledRBIndicator);
+
+    //Uncheck all radio btns
+    ui->checkPads->setChecked(false);
+    ui->doNotTouchPatient->setChecked(false);
+    ui->analyzing->setChecked(false);
+    ui->shockableRhythm->setChecked(false);
+}
+
 
 // Add a random error the to aed errorVector
 void MainWindow::failAEDSetupBtn() {
@@ -221,7 +223,7 @@ CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
     }
 }
 
-void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void ()> performOperations, bool isSuccess) {
+void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void()> performOperations, std::function<void()> audioOperations, bool isSuccess) {
     if(this->aed->getIsOn()){
         // Check the btn
         radioBtn->setChecked(true);
@@ -233,8 +235,9 @@ void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void ()>
     QTimer* timer = new QTimer(this);
     // Create a step pointer
     int* step = new int(0);
+    audioOperations();
 
-    QObject::connect(timer, &QTimer::timeout, [this, step, timer, isSuccess, radioBtn, performOperations]() {
+    QObject::connect(timer, &QTimer::timeout, [this, step, timer, isSuccess, radioBtn, performOperations, audioOperations]() {
 
         // Stop the timer after 3 iterations
         if ((*step) == 3 || !this->aed->getIsOn()) {
@@ -248,7 +251,10 @@ void MainWindow::indiciatorSwitch(QRadioButton* radioBtn, std::function<void ()>
             // Delete the step
             delete step;
         } else {
-            (*step)++;
+
+            if(!(this->aed->getVoiceSystem()->getAudioInstructions()->state() == QMediaPlayer::PlayingState)){
+                (*step)++;
+            }
         }
     });
 
@@ -268,6 +274,7 @@ void MainWindow::flashShockButton(){
 }
 
 void MainWindow::placeAdultElectrodeBtn() {
+    resetRadioBtns();
     QString patientCondition = determineCondition();
     placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
@@ -276,20 +283,7 @@ void MainWindow::placeAdultElectrodeBtn() {
     updateVictimInfo();
     placePadsUI(false);
 
-    indiciatorSwitch(ui->checkPads, [this] () {
-        if(!this->aed->getFaultyPadPlacment()){
-            // Tell the user to replace the pads
-            // Maybe disable everything but pad replace
-        }
-
-        indiciatorSwitch(ui->doNotTouchPatient, [this] () {
-            indiciatorSwitch(ui->analyzing, [this] () {
-                indiciatorSwitch(ui->shockableRhythm, [this] () {
-                    this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-            }, true);
-        }, true);
-    }, !this->aed->getFaultyPadPlacment());
+    callIndicatorSwitchLambdas();
 }
 
 void MainWindow::placeChildElectrodeBtn() {
@@ -300,24 +294,24 @@ void MainWindow::placeChildElectrodeBtn() {
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(5, 19), imgPathToCardiac(patientCondition)));
     updateVictimInfo();
     placePadsUI(true);
-    indiciatorSwitch(ui->checkPads, [this] () {
-        if(!this->aed->getFaultyPadPlacment()){
-            // Tell the user to replace the pads
-            // Maybe disable everything but pad replace
-        }
 
-        indiciatorSwitch(ui->doNotTouchPatient, [this] () {
-            indiciatorSwitch(ui->analyzing, [this] () {
-                indiciatorSwitch(ui->shockableRhythm, [this] () {
-                    this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-            }, true);
-        }, true);
-    }, !this->aed->getFaultyPadPlacment());
-
-    this->aed->setFaultyPadPlacement(false);
+    callIndicatorSwitchLambdas();
 }
 
+void MainWindow::callIndicatorSwitchLambdas() {
+    indiciatorSwitch(ui->checkPads, [this] () {
+        if(!this->aed->getFaultyPadPlacment()) {
+            indiciatorSwitch(ui->doNotTouchPatient, [this] () {
+                indiciatorSwitch(ui->analyzing, [this] () {
+                    indiciatorSwitch(ui->shockableRhythm, [this] () {
+                        this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, true);
+            }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
+        }
+        this->aed->setFaultyPadPlacement(false);
+    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction((!this->aed->getFaultyPadPlacment()) ? "qrc:/audios/src/audios/PadCheckSuccess.mp3" : "qrc:/audios/src/audios/PadCheckFailed.mp3", ":/images/src/img/attachPads.png", "Apply Pads"); }, !this->aed->getFaultyPadPlacment());
+}
 
 void MainWindow::updateVictimInfo() {
     ui->nameLabel->setText(QString::fromStdString(this->aed->getVictim()->getName()));
