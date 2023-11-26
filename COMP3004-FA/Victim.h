@@ -8,17 +8,22 @@
 using namespace std;
 
 
-
+// Victim class
 class Victim{
+    // Public functions
     public:
+        // Constructor
         Victim(int, CardiacArrhythmias*);
 
+        // Getters
         int getVictimId() { return this->victimId; }
         int getAge() { return this->age; }
         string getName() { return this->name; }
         CardiacArrhythmias* getCondition() { return this->condition; }
 
+        // Random name generator
         static string generateRandomName();
+    // Private member variables
     private:
         // Static victim Id
         static int victimStaticId;

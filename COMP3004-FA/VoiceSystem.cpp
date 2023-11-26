@@ -8,19 +8,9 @@ VoiceSystem::VoiceSystem() {
     this->audioInstructions = new QMediaPlayer();
 }
 
-// Get the currentInstruction
-QString VoiceSystem::getCurrentInstruction(){
-    return this->currentInstruction;
-}
-
 // Set the current instruction
 void VoiceSystem::setCurrentInstruction(QString newInstruction){
     this->currentInstruction = newInstruction;
-}
-
-// Get the current illustrationPath
-QString VoiceSystem::getCurrentIllustrationPath(){
-    return this->currentIllustrationPath;
 }
 
 // Set the currentIllustrationPath
