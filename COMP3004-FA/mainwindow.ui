@@ -120,22 +120,6 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Instructions&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="placeElectrodesBtn">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>100</y>
-      <width>151</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Place Electrodes</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="onOffBtn">
     <property name="geometry">
      <rect>
@@ -284,6 +268,22 @@ QRadioButton::indicator:unchecked {
      <string>Active</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="placeElectrodesBtn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>110</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Place Electrodes</string>
+    </property>
+   </widget>
    <widget class="QRadioButton" name="shockableRhythm">
     <property name="geometry">
      <rect>
@@ -316,8 +316,8 @@ QRadioButton::indicator:unchecked {
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>160</y>
-      <width>151</width>
+      <y>180</y>
+      <width>141</width>
       <height>51</height>
      </rect>
     </property>
@@ -624,7 +624,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>160</y>
+      <y>180</y>
       <width>141</width>
       <height>51</height>
      </rect>
@@ -668,16 +668,6 @@ Electro Pad</string>
     </property>
     <property name="text">
      <string>Normal Sinus Rhythm</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="imageInstructionGraphics">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>470</y>
-      <width>201</width>
-      <height>151</height>
-     </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -744,8 +734,8 @@ Electro Pad</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>src/img/childButton.png</normaloff>src/img/childButton.png</iconset>
+     <iconset resource="src.qrc">
+      <normaloff>:/images/src/img/childButton.png</normaloff>:/images/src/img/childButton.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -762,7 +752,7 @@ Electro Pad</string>
      <rect>
       <x>865</x>
       <y>350</y>
-      <width>71</width>
+      <width>70</width>
       <height>71</height>
      </rect>
     </property>
@@ -784,17 +774,34 @@ Electro Pad</string>
     </property>
     <property name="flat">
      <bool>true</bool>
+    </property>
+   </widget>
    <widget class="QCheckBox" name="childTogglePads">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>70</y>
-      <width>101</width>
+      <x>360</x>
+      <y>80</y>
+      <width>131</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Child Toggle</string>
+     <string>Child Electrodes</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="imageInstructionGraphics">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>140</y>
+      <width>171</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGraphicsScene{
+	background-color: black;
+}</string>
     </property>
    </widget>
   </widget>

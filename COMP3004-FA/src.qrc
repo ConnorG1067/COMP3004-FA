@@ -34,7 +34,5 @@
         <file>src/img/pushHarder.png</file>
         <file>src/img/shockbutton.png</file>
         <file>src/img/startCPR.png</file>
-        <file>src/img/analyzingHeart - Copy.png</file>
-        <file>src/img/powerbutton (Small).png</file>
     </qresource>
 </RCC>
