@@ -47,6 +47,7 @@ void MainWindow::initializeBtns(){
     connect(ui->placeElectrodesBtn, SIGNAL(released()), this, SLOT(determineElectrodes()));
     // On and off btn
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
+    connect(ui->onOffAedBtn, SIGNAL(released()), this, SLOT(powerBtn()));
     // Sets the next pad placement to the incorrect position
     connect(ui->misPlacePad, &QPushButton::released, this, [this] () {this->aed->setFaultyPadPlacement(true);});
     // Sets the next setup to a fail
@@ -61,6 +62,9 @@ void MainWindow::initializeBtns(){
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
     // Shock btn functionality
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+    // Toggle the is child btn from the aed
+    connect(ui->childAedBtn, &QPushButton::released, this, [this](){ ui->childTogglePads->setChecked(!ui->childTogglePads->isChecked()); });
+
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -106,6 +110,7 @@ void MainWindow::powerBtn() {
         // Clear both scenes
         this->instructionScene->clear();
         this->waveFormScene->clear();
+        this->imageInstructionScene->clear();
 
         // Reset the radio btns to their default positions
         resetRadioBtns();
@@ -176,6 +181,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::finished, [this]() {
         if(this->aed->getIsFunctional()){
             displayDummy();
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitOkay.mp3", ":/images/src/img/check_mark_img.png", "UNIT OKAY");
         }
     });
 
@@ -184,6 +190,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
         if(value.toInt() >= randomStopValue && !isSuccessful) {
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT OKAY");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);
             animation->stop();
@@ -353,8 +360,8 @@ void MainWindow::callIndicatorSwitchLambdas() {
                     indiciatorSwitch(ui->shockableRhythm, [this] () {
                         // Set the aed device is ready to shock if the condition of the victim is not normal sinus rhythm
                         this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, true);
+                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
             }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
         }
         // Set the faulty pad placement to false
