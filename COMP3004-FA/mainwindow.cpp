@@ -44,8 +44,7 @@ MainWindow::~MainWindow() {
 // Initalize all buttons
 void MainWindow::initializeBtns(){
     // Place child and adult electrodes
-    connect(ui->placeAdultElectrodes, SIGNAL(released()), this, SLOT(placeAdultElectrodeBtn()));
-    connect(ui->placeChildElectrodes, SIGNAL(released()), this, SLOT(placeChildElectrodeBtn()));
+    connect(ui->placeElectrodesBtn, SIGNAL(released()), this, SLOT(determineElectrodes()));
     // On and off btn
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
     // Sets the next pad placement to the incorrect position
@@ -112,8 +111,7 @@ void MainWindow::powerBtn() {
         resetRadioBtns();
 
         // Disable the adult and child electrode btns
-        ui->placeAdultElectrodes->setEnabled(false);
-        ui->placeChildElectrodes->setEnabled(false);
+        ui->placeElectrodesBtn->setEnabled(false);
     }
     // Set us on to the negation of itself
     this->aed->setIsOn(!this->aed->getIsOn());
@@ -202,8 +200,7 @@ void MainWindow::displayDummy() {
     placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
 
     // Make the electrodes button enabled
-    ui->placeAdultElectrodes->setEnabled(true);
-    ui->placeChildElectrodes->setEnabled(true);
+    ui->placeElectrodesBtn->setEnabled(true);
 }
 
 // Place btn function
@@ -428,4 +425,8 @@ void MainWindow::placePadsUI(bool isChild) {
     // Add the box to the scene
     this->instructionScene->addItem(currentPair->getUpperPad()->getPadRect());
     this->instructionScene->addItem(currentPair->getLowerPad()->getPadRect());
+}
+
+void MainWindow::determineElectrodes() {
+    (ui->childTogglePads->isChecked()) ? placeChildElectrodeBtn() : placeAdultElectrodeBtn();
 }

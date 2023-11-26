@@ -120,20 +120,20 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Instructions&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="placeAdultElectrodes">
+   <widget class="QPushButton" name="placeElectrodesBtn">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>60</y>
+      <y>100</y>
       <width>151</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Place Adult Electrodes</string>
+     <string>Place Electrodes</string>
     </property>
    </widget>
    <widget class="QPushButton" name="onOffBtn">
@@ -284,22 +284,6 @@ QRadioButton::indicator:unchecked {
      <string>Active</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="placeChildElectrodes">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>120</y>
-      <width>151</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Place Child Electrodes</string>
-    </property>
-   </widget>
    <widget class="QRadioButton" name="shockableRhythm">
     <property name="geometry">
      <rect>
@@ -332,7 +316,7 @@ QRadioButton::indicator:unchecked {
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>180</y>
+      <y>160</y>
       <width>151</width>
       <height>51</height>
      </rect>
@@ -640,7 +624,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>180</y>
+      <y>160</y>
       <width>141</width>
       <height>51</height>
      </rect>
@@ -694,6 +678,19 @@ Electro Pad</string>
       <width>201</width>
       <height>151</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="childTogglePads">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>70</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Child Toggle</string>
     </property>
    </widget>
   </widget>
