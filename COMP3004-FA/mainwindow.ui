@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>973</width>
-    <height>689</height>
+    <width>1506</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -653,8 +653,8 @@ Electro Pad</string>
    <widget class="QTextEdit" name="textInstructions">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>300</y>
+      <x>900</x>
+      <y>470</y>
       <width>201</width>
       <height>111</height>
      </rect>
@@ -690,10 +690,116 @@ Electro Pad</string>
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>420</y>
+      <y>470</y>
       <width>201</width>
       <height>151</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>30</y>
+      <width>411</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="src.qrc">:/images/src/img/aedNoButtons.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="powerButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>40</y>
+      <width>101</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="src.qrc">
+      <normaloff>:/images/src/img/powerbutton.png</normaloff>:/images/src/img/powerbutton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="childButton">
+    <property name="geometry">
+     <rect>
+      <x>966</x>
+      <y>299</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>src/img/childButton.png</normaloff>src/img/childButton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="shockButton">
+    <property name="geometry">
+     <rect>
+      <x>865</x>
+      <y>350</y>
+      <width>71</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="src.qrc">
+      <normaloff>:/images/src/img/shockbutton.png</normaloff>:/images/src/img/shockbutton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -702,7 +808,7 @@ Electro Pad</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>973</width>
+     <width>1506</width>
      <height>22</height>
     </rect>
    </property>
@@ -715,6 +821,8 @@ Electro Pad</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="src.qrc"/>
+ </resources>
  <connections/>
 </ui>
