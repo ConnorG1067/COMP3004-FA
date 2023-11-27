@@ -38,7 +38,9 @@ class VoiceSystem : public QObject {
         void setCurrentIllustrationPath(QString);
 
 
-        // Message function
+        // Display functions
+        void initiateTextIntruction(QString);
+        void initiateSound(QString);
         void initiateAudioAndTextIntruction(QString, QString, QString);
 
     // Signals

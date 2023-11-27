@@ -556,8 +556,8 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>210</y>
+      <x>500</x>
+      <y>110</y>
       <width>141</width>
       <height>51</height>
      </rect>
@@ -570,10 +570,10 @@ Electro Pad</string>
    <widget class="QTextEdit" name="textInstructions">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>100</y>
-      <width>141</width>
-      <height>101</height>
+      <x>690</x>
+      <y>450</y>
+      <width>411</width>
+      <height>191</height>
      </rect>
     </property>
    </widget>
@@ -606,8 +606,8 @@ Electro Pad</string>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>110</y>
+      <x>690</x>
+      <y>20</y>
       <width>411</width>
       <height>421</height>
      </rect>
@@ -622,8 +622,8 @@ Electro Pad</string>
    <widget class="QPushButton" name="onOffAedBtn">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>120</y>
+      <x>690</x>
+      <y>30</y>
       <width>101</width>
       <height>91</height>
      </rect>
@@ -632,7 +632,8 @@ Electro Pad</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+     <string notr="true">QPushButton:pressed{ background-color: transparent }
+QPushButton{ background-color: rgba(255, 255, 255, 0); }</string>
     </property>
     <property name="text">
      <string/>
@@ -647,6 +648,9 @@ Electro Pad</string>
       <height>70</height>
      </size>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
     <property name="flat">
      <bool>true</bool>
     </property>
@@ -654,8 +658,8 @@ Electro Pad</string>
    <widget class="QPushButton" name="childAedBtn">
     <property name="geometry">
      <rect>
-      <x>1126</x>
-      <y>379</y>
+      <x>966</x>
+      <y>289</y>
       <width>70</width>
       <height>70</height>
      </rect>
@@ -683,8 +687,8 @@ Electro Pad</string>
    <widget class="QPushButton" name="shockAed">
     <property name="geometry">
      <rect>
-      <x>1025</x>
-      <y>430</y>
+      <x>865</x>
+      <y>340</y>
       <width>70</width>
       <height>71</height>
      </rect>
@@ -725,8 +729,8 @@ Electro Pad</string>
    <widget class="QGraphicsView" name="imageInstructionGraphics">
     <property name="geometry">
      <rect>
-      <x>970</x>
-      <y>220</y>
+      <x>810</x>
+      <y>130</y>
       <width>171</width>
       <height>91</height>
      </rect>
@@ -737,171 +741,36 @@ Electro Pad</string>
 }</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QPushButton" name="compression">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>661</width>
-      <height>41</height>
+      <x>500</x>
+      <y>210</y>
+      <width>141</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{background-color: rgb(100,100,100)}</string>
-    </property>
     <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Admin View&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>Compression</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QPushButton" name="poorCompression">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>800</x>
-      <y>60</y>
-      <width>501</width>
-      <height>41</height>
+      <x>500</x>
+      <y>180</y>
+      <width>141</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{background-color: rgb(100,100,100)}</string>
-    </property>
     <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;AED View&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_14">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>100</y>
-      <width>21</width>
-      <height>451</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{background-color: rgb(100,100,100)}</string>
-    </property>
-    <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_16">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>540</y>
-      <width>501</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{background-color: rgb(100,100,100)}</string>
-    </property>
-    <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_17">
-    <property name="geometry">
-     <rect>
-      <x>1280</x>
-      <y>100</y>
-      <width>21</width>
-      <height>451</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{background-color: rgb(100,100,100)}</string>
-    </property>
-    <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir='rtl' style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="batteryIndicator">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>490</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QRadioButton {
-    color:                  black;
-}
-
-QRadioButton::indicator {
-    width:                  10px;
-    height:                 10px;
-    border-radius:          7px;
-}
-
-QRadioButton::indicator:checked {
-    background-color:       green;
-    border:                 2px solid black;
-}
-
-QRadioButton::indicator:unchecked {
-    border:                 2px solid black;
-}</string>
-    </property>
-    <property name="text">
-     <string>Battery</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="activeIndicator">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>470</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QRadioButton {
-    color:                  black;
-}
-
-QRadioButton::indicator {
-    width:                  10px;
-    height:                 10px;
-    border-radius:          7px;
-}
-
-QRadioButton::indicator:checked {
-    background-color:       green;
-    border:                 2px solid black;
-}
-
-QRadioButton::indicator:unchecked {
-    background-color:       red;
-    border:                 2px solid black;
-}</string>
-    </property>
-    <property name="text">
-     <string>Active</string>
+     <string>Shallow Compression</string>
     </property>
    </widget>
   </widget>

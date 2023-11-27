@@ -12,6 +12,7 @@
         <file>src/audios/NoShockableHeartRhythm.mp3</file>
         <file>src/audios/DoNotTouch.mp3</file>
         <file>src/audios/AnalyzingHR.mp3</file>
+        <file>src/audios/CPRTick.mp3</file>
         <file>src/audios/UnitOkay.mp3</file>
         <file>src/audios/UnitNotOkay.mp3</file>
     </qresource>
