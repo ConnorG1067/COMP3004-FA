@@ -36,5 +36,6 @@ void AED::setIsReadyForShock(bool isReady){
 
 // Shock function
 void AED::shock() {
+    this->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Shock one administered");
     emit this->shockSignal();
 }
