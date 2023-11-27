@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Allocating memory for an AED
     this->aed = new AED();
+    this->aed->setCprIterations(ui->iterationComboBox->currentText().toInt());
 
     // Initializing timers
     this->flashTimer = new QTimer();
@@ -34,8 +35,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons & Starting UI
     initializeBtns();
     initializeStartingUI();
-
-    this->aed->startCPR();
 }
 
 // Deconstructor for MainWindow
@@ -68,15 +67,15 @@ void MainWindow::initializeBtns(){
 
     // Connect aed to flashShockButton function so that the aed may update the ui with the flashing shock button
     connect(this->aed, &AED::flashShockButtonSignal, this, [this](){ flashTimer->start(); });
+
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
 
-    // Shock btn functionality
-    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
     // Toggle the is child btn from the aed
     connect(ui->childAedBtn, &QPushButton::released, this, [this](){ ui->childTogglePads->setChecked(!ui->childTogglePads->isChecked()); });
 
-}
+    connect(ui->iterationComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, [this](int index) { this->aed->setCprIterations(ui->iterationComboBox->itemText(index).toInt()); });}
 
 // Function that is ran on the UI contructor to update UI
 void MainWindow::initializeStartingUI() {
@@ -359,25 +358,26 @@ void MainWindow::placeChildElectrodeBtn() {
 
 // Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
+    this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+
     // Check the pads
-    indiciatorSwitch(ui->checkPads, [this] () {
-        // If the pads are not faulty then proced
-        if(!this->aed->getFaultyPadPlacment()) {
-            // Don't touch the patient
-            indiciatorSwitch(ui->doNotTouchPatient, [this] () {
-                // Analyze the patient
-                indiciatorSwitch(ui->analyzing, [this] () {
-                    // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
-                    indiciatorSwitch(ui->shockableRhythm, [this] () {
-                        // Set the aed device is ready to shock if the condition of the victim is not normal sinus rhythm
-                        this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
-            }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
-        }
-        // Set the faulty pad placement to false
-        this->aed->setFaultyPadPlacement(false);
-    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction((!this->aed->getFaultyPadPlacment()) ? "qrc:/audios/src/audios/PadCheckSuccess.mp3" : "qrc:/audios/src/audios/PadCheckFailed.mp3", ":/images/src/img/attachPads.png", "Apply Pads"); }, !this->aed->getFaultyPadPlacment());
+//    indiciatorSwitch(ui->checkPads, [this] () {
+//        // If the pads are not faulty then proced
+//        if(!this->aed->getFaultyPadPlacment()) {
+//            // Don't touch the patient
+//            indiciatorSwitch(ui->doNotTouchPatient, [this] () {
+//                // Analyze the patient
+//                indiciatorSwitch(ui->analyzing, [this] () {
+//                    // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
+//                    indiciatorSwitch(ui->shockableRhythm, [this] () {
+//                        this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"), ui->iterationComboBox->currentText().toInt());
+//                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+//                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
+//            }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
+//        }
+//        // Set the faulty pad placement to false
+//        this->aed->setFaultyPadPlacement(false);
+//    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction((!this->aed->getFaultyPadPlacment()) ? "qrc:/audios/src/audios/PadCheckSuccess.mp3" : "qrc:/audios/src/audios/PadCheckFailed.mp3", ":/images/src/img/attachPads.png", "Apply Pads"); }, !this->aed->getFaultyPadPlacment());
 }
 
 // Updates the UI for the victim info

@@ -6,6 +6,7 @@
 #include <vector>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <thread>
 
 #include "VoiceSystem.h"
 #include "Victim.h"
@@ -26,6 +27,7 @@ class AED : public QObject {
 
         QTimer* CPRTimer;
         QElapsedTimer* CPRElapsedTimer;
+        QElapsedTimer* CPRElapsedIterationTimer;
 
         // Ints
         int batteryLevel = 100;
@@ -55,6 +57,9 @@ class AED : public QObject {
         // Self Check
         bool selfCheck();
 
+        // CPR iterations
+        int cprIterations;
+
         // Perform Compression
         void performCompression(int compressionType);
 
@@ -72,7 +77,7 @@ class AED : public QObject {
         QTimer* getCPRTimer() { return this->CPRTimer; }
 
         // Setters
-        void setIsReadyForShock(bool isReady);
+        void setIsReadyForShock(bool);
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
@@ -81,6 +86,7 @@ class AED : public QObject {
         void setVictim(Victim *newVictim) { this->victim = newVictim; };
         void setElectrodePadPair(ElectrodePadPair* newPair) { this->electrodePads = newPair; }
         void setShockAdministered(bool newShockAdministered) { this->shockAdministered = newShockAdministered; }
+        void setCprIterations(int newIteration) { this->cprIterations = newIteration; }
 
         void startCPR();
 

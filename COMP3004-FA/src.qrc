@@ -15,6 +15,7 @@
         <file>src/audios/CPRTick.mp3</file>
         <file>src/audios/UnitOkay.mp3</file>
         <file>src/audios/UnitNotOkay.mp3</file>
+        <file>src/audios/ShockNotAdvisedBeginCPR.mp3</file>
     </qresource>
     <qresource prefix="/images">
         <file>src/img/analyzing.png</file>
