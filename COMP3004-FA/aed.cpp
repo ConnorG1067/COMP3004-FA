@@ -31,7 +31,7 @@ bool AED::powerOn() {
 
 // CPR start function
 void AED::startCPR(){
-    //this->CPRElapsedTimer->start();
+    this->CPRElapsedTimer->start();
     this->getCPRTimer()->start();
 }
 
