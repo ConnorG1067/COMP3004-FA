@@ -13,6 +13,8 @@
         <file>src/audios/DoNotTouch.mp3</file>
         <file>src/audios/AnalyzingHR.mp3</file>
         <file>src/audios/CPRTick.mp3</file>
+        <file>src/audios/UnitOkay.mp3</file>
+        <file>src/audios/UnitNotOkay.mp3</file>
     </qresource>
     <qresource prefix="/images">
         <file>src/img/analyzing.png</file>
@@ -35,5 +37,8 @@
         <file>src/img/pushHarder.png</file>
         <file>src/img/shockbutton.png</file>
         <file>src/img/startCPR.png</file>
+        <file>src/img/not_okay_img.png</file>
+        <file>src/img/check_mark_img.png</file>
+        <file>src/img/shockadvised_img.png</file>
     </qresource>
 </RCC>
