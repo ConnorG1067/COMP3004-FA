@@ -101,10 +101,10 @@ void AED::setIsReadyForShock(bool isReady){
 }
 
 // Shock function
-void AED::shock(){
+void AED::shock() {
     emit this->shockSignal();
 
-    this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", "", "Start CPR");
+    this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR");
     this->startCPR();
 }
 
