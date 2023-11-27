@@ -4,6 +4,8 @@
 #include <QObject>
 #include <ElectrodePad.h>
 #include <vector>
+#include <QTimer>
+#include <QElapsedTimer>
 
 #include "VoiceSystem.h"
 #include "Victim.h"
@@ -22,6 +24,9 @@ class AED : public QObject {
         Victim* victim;
         VoiceSystem* voiceSystem;
 
+        QTimer* CPRTimer;
+        QElapsedTimer* CPRElapsedTimer;
+
         // Ints
         int batteryLevel = 100;
 
@@ -32,6 +37,10 @@ class AED : public QObject {
         bool faultyPadPlacement = false;
         bool readyForShock = false;
         bool shockAdministered = false;
+
+        int CPRCompressions[5] = {0,0,0,0,0};
+        int CPRCompressionTimings[5] = {0,0,0,0,0};
+
     // Public member variables
     public:
         // explicit constructor
@@ -46,6 +55,9 @@ class AED : public QObject {
         // Self Check
         bool selfCheck();
 
+        // Perform Compression
+        void performCompression(int compressionType);
+
         // Getters
         bool getIsOn() { return this->isOn; }
         bool getIsReadyForShock() { return this->readyForShock; }
@@ -57,6 +69,7 @@ class AED : public QObject {
         bool getShockAdministered() { return this->shockAdministered; }
         Victim* getVictim() { return this->victim; }
         VoiceSystem* getVoiceSystem() { return this->voiceSystem; }
+        QTimer* getCPRTimer() { return this->CPRTimer; }
 
         // Setters
         void setIsReadyForShock(bool isReady);
@@ -68,11 +81,17 @@ class AED : public QObject {
         void setVictim(Victim *newVictim) { this->victim = newVictim; };
         void setElectrodePadPair(ElectrodePadPair* newPair) { this->electrodePads = newPair; }
         void setShockAdministered(bool newShockAdministered) { this->shockAdministered = newShockAdministered; }
+
+        void startCPR();
+
     // Signals for the aed
     signals:
         void arythmiaDetected();
         void flashShockButtonSignal();
         void shockSignal();
+
+    private slots:
+        void CPRTimerFn();
 };
 
 #endif // AED_H

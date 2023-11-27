@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Allocating memory for an AED
     this->aed = new AED();
 
-    // Creating a timer
-    flashTimer = new QTimer();
+    // Initializing timers
+    this->flashTimer = new QTimer();
     this->flashTimer->setInterval(100);
 
     // Creating multiple scenes from the class definition
@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons & Starting UI
     initializeBtns();
     initializeStartingUI();
+
+    this->aed->startCPR();
 }
 
 // Deconstructor for MainWindow
@@ -53,12 +55,21 @@ void MainWindow::initializeBtns(){
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+
     // Connect flash shock button timer to timer function
-    QObject::connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
+    connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
+
+    // Connect CPR compression
+    connect(ui->compression, &QPushButton::released, this, [this](){this->aed->performCompression(1);});
+
+    // Connect poor CPR compression
+    connect(ui->poorCompression, &QPushButton::released, this, [this](){this->aed->performCompression(-1);});
+
     // Connect aed to flashShockButton function so that the aed may update the ui with the flashing shock button
     connect(this->aed, &AED::flashShockButtonSignal, this, [this](){ flashTimer->start(); });
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
+
     // Shock btn functionality
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
 }
