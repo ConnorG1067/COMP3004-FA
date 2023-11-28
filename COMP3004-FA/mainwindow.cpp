@@ -13,9 +13,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Allocating memory for an AED
     this->aed = new AED();
+    this->aed->setCprIterations(ui->iterationComboBox->currentText().toInt());
+    this->aed->setMainWindowResetCallback([this] () {
+        // Clear Scenes and text boxes
+        this->instructionScene->clear();
+        placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
+        this->waveFormScene->clear();
+        this->imageInstructionScene->clear();
+        ui->textInstructions->clear();
 
-    // Creating a timer
-    flashTimer = new QTimer();
+        resetRadioBtns();
+        initializeStartingUI();
+
+        ui->nameLabel->clear();
+        ui->ageLabel->clear();
+        ui->conditionLabel->clear();
+    });
+
+    // Initializing timers
+    this->flashTimer = new QTimer();
     this->flashTimer->setInterval(100);
 
     // Creating multiple scenes from the class definition
@@ -34,9 +50,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons & Starting UI
     initializeBtns();
     initializeStartingUI();
-
-    //this->aed->startCPR();
-    this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitOkay.mp3", ":/images/src/img/check_mark_img.png", "UNIT OKAY");
 }
 
 // Deconstructor for MainWindow
@@ -50,20 +63,38 @@ void MainWindow::initializeBtns(){
     connect(ui->placeElectrodesBtn, SIGNAL(released()), this, SLOT(determineElectrodes()));
     // On and off btn
     connect(ui->onOffBtn, SIGNAL(released()), this, SLOT(powerBtn()));
+    connect(ui->onOffAedBtn, SIGNAL(released()), this, SLOT(powerBtn()));
     // Sets the next pad placement to the incorrect position
     connect(ui->misPlacePad, &QPushButton::released, this, [this] () {this->aed->setFaultyPadPlacement(true);});
     // Sets the next setup to a fail
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+
     // Connect flash shock button timer to timer function
-    QObject::connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
+    connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
+
+    // Connect CPR compression
+    connect(ui->compression, &QPushButton::released, this, [this](){this->aed->performCompression(1);});
+
+    // Connect poor CPR compression
+    connect(ui->poorCompression, &QPushButton::released, this, [this](){this->aed->performCompression(-1);});
+
     // Connect aed to flashShockButton function so that the aed may update the ui with the flashing shock button
     connect(this->aed, &AED::flashShockButtonSignal, this, [this](){ flashTimer->start(); });
+
     // TODO: This may be redundant, could do this code in aed.cpp
     connect(this->aed, &AED::shockSignal, this, [this](){this->aed->setShockAdministered(true);});
-    // Shock btn functionality
-    connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+
+    // Toggle the is child btn from the aed
+    connect(ui->childAedBtn, &QPushButton::released, this, [this](){ ui->childTogglePads->setChecked(!ui->childTogglePads->isChecked()); });
+
+    connect(ui->iterationComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, [this](int index) { this->aed->setCprIterations(ui->iterationComboBox->itemText(index).toInt()); });
+
+    // Initalize voice system
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 200, 100, 35, 0); });
 }
 
 // Function that is ran on the UI contructor to update UI
@@ -83,10 +114,6 @@ void MainWindow::initializeStartingUI() {
     ui->doNotTouchPatient->setAutoExclusive(false);
     ui->analyzing->setAutoExclusive(false);
     ui->shockableRhythm->setAutoExclusive(false);
-
-    // Initalize voice system
-    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
-    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 160, 80, 35, 0); });
 
     // Set the process radio buttons to disabled
     ui->checkPads->setDisabled(true);
@@ -109,8 +136,9 @@ void MainWindow::powerBtn() {
         // Clear both scenes
         this->instructionScene->clear();
         this->waveFormScene->clear();
+        this->imageInstructionScene->clear();
 
-        // Reset the radio btns to their default positions
+        // Reset the radio btns to their default values
         resetRadioBtns();
 
         // Disable the adult and child electrode btns
@@ -179,6 +207,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::finished, [this]() {
         if(this->aed->getIsFunctional()){
             displayDummy();
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitOkay.mp3", ":/images/src/img/check_mark_img.png", "UNIT OKAY");
         }
     });
 
@@ -187,6 +216,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
         if(value.toInt() >= randomStopValue && !isSuccessful) {
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT OKAY");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);
             animation->stop();
@@ -344,7 +374,8 @@ void MainWindow::placeChildElectrodeBtn() {
 
 // Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
-    // Check the pads
+
+
     indiciatorSwitch(ui->checkPads, [this] () {
         // If the pads are not faulty then proced
         if(!this->aed->getFaultyPadPlacment()) {
@@ -354,10 +385,10 @@ void MainWindow::callIndicatorSwitchLambdas() {
                 indiciatorSwitch(ui->analyzing, [this] () {
                     // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
                     indiciatorSwitch(ui->shockableRhythm, [this] () {
-                        // Set the aed device is ready to shock if the condition of the victim is not normal sinus rhythm
-                        this->aed->setIsReadyForShock((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction(((this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")) ? "qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3" : "qrc:/audios/src/audios/NoShockableHeartRhythm.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzing.png", "Analyzing"); }, true);
+                        this->aed->setIsReadyForShock(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm");
+                        this->aed->readyForShockFunctionality();
+                    }, [this] () { if(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
             }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
         }
         // Set the faulty pad placement to false

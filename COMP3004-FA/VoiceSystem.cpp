@@ -31,3 +31,17 @@ void VoiceSystem::initiateAudioAndTextIntruction(QString audioPath, QString illu
     // emit the display update for mainwindow.h
     emit this->textInstructionUpdatedForDisplay();
 }
+
+void VoiceSystem::initiateSound(QString audioPath){
+    // Set the audio to the audio path
+    this->audioInstructions->setMedia(QUrl(audioPath));
+    // Play the media
+    this->audioInstructions->play();
+}
+
+void VoiceSystem::initiateTextIntruction(QString currentInstruction){
+    this->setCurrentInstruction(currentInstruction);
+
+    // emit the display update for mainwindow.h
+    emit this->textInstructionUpdatedForDisplay();
+}
