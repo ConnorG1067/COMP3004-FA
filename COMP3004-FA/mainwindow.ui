@@ -736,9 +736,8 @@ Electro Pad</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGraphicsScene{
-        background-color: black;
-}</string>
+     <string notr="true">background-color: black;
+</string>
     </property>
    </widget>
    <widget class="QPushButton" name="compression">
