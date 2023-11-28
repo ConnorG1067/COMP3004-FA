@@ -71,6 +71,8 @@ class AED : public QObject {
         // Perform Compression
         void performCompression(int compressionType);
 
+        void readyForShockFunctionality();
+
         // Getters
         bool getIsOn() { return this->isOn; }
         bool getIsReadyForShock() { return this->readyForShock; }
@@ -85,7 +87,7 @@ class AED : public QObject {
         QTimer* getCPRTimer() { return this->CPRTimer; }
 
         // Setters
-        void setIsReadyForShock(bool);
+        void setIsReadyForShock(bool shockVal) { this->readyForShock = shockVal; }
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }

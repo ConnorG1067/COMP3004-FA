@@ -33,11 +33,9 @@ bool AED::powerOn() {
 
 // CPR start function
 void AED::startCPR(){
-    awaitAudio("qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () {
-        this->CPRElapsedTimer->start();
-        this->getCPRTimer()->start();
-        this->CPRElapsedIterationTimer->start();
-    });
+    this->CPRElapsedTimer->start();
+    this->getCPRTimer()->start();
+    this->CPRElapsedIterationTimer->start();
 }
 
 // CPR Timer function
@@ -63,15 +61,17 @@ void AED::CPRTimerFn(){
             }else{
                 this->startCPR();
             }
+        }else{
+            int responsiveProbability = QRandomGenerator::global()->bounded(0, 9);
+
+            awaitAudio((responsiveProbability < 3) ? "qrc:/audios/src/audios/unresponsive.mp3" : "qrc:/audios/src/audios/responsive.mp3", ":/images/src/img/ems_arrival.png", "Await EMS", [this] () {
+                this->mainWindowResetCallback();
+            });
         }
-    }
 
-    if(this->cprIterations == 0){
-        int responsiveProbability = QRandomGenerator::global()->bounded(0, 9);
+//        if(this->cprIterations == 0){
 
-        awaitAudio((responsiveProbability < 3) ? "qrc:/audios/src/audios/unresponsive.mp3" : "qrc:/audios/src/audios/responsive.mp3", ":/images/src/img/ems_arrival.png", "Await EMS", [this] () {
-            this->mainWindowResetCallback();
-        });
+//        }
     }
 }
 
@@ -136,18 +136,15 @@ void AED::performCompression(int compressionType = 0){
 }
 
 // Set is ready for shock
-void AED::setIsReadyForShock(bool isReady){
+void AED::readyForShockFunctionality(){
     // If it is ready
-    if(isReady) {
+    if(this->readyForShock) {
         // Play the shock advised audio
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
+        emit flashShockButtonSignal();
+    }else{
+        awaitAudio("qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
     }
-
-    this->startCPR();
-
-    // Start CPR
-    // Set the variable is ready for shock
-    this->readyForShock = isReady;
 }
 
 // Shock function
