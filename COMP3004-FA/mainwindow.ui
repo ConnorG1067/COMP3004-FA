@@ -699,17 +699,17 @@ Electro Pad</string>
    <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>700</x>
       <y>40</y>
-      <width>101</width>
-      <height>91</height>
+      <width>91</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+     <string notr="true">background-color: rgba(200,255,40,0);</string>
     </property>
     <property name="text">
      <string/>
@@ -738,7 +738,7 @@ Electro Pad</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: transparent</string>
+     <string notr="true">background-color: rgba(200,255,40,0);</string>
     </property>
     <property name="text">
      <string/>
@@ -767,7 +767,7 @@ Electro Pad</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: transparent</string>
+     <string notr="true">background-color: rgba(200,255,40,0);</string>
     </property>
     <property name="text">
      <string/>
@@ -795,6 +795,32 @@ Electro Pad</string>
     </property>
     <property name="text">
      <string>Child Toggle</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="batteryIndicator">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>400</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Battery</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="activeIndicator">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>380</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Active</string>
     </property>
    </widget>
   </widget>

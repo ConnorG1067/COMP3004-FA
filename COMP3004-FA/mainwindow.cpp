@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Initialize Buttons & Starting UI
     initializeBtns();
     initializeStartingUI();
+
+    //this->aed->startCPR();
+    this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitOkay.mp3", ":/images/src/img/check_mark_img.png", "UNIT OKAY");
 }
 
 // Deconstructor for MainWindow
@@ -83,7 +86,7 @@ void MainWindow::initializeStartingUI() {
 
     // Initalize voice system
     connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
-    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 200, 100, 35, 0); });
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 160, 80, 35, 0); });
 
     // Set the process radio buttons to disabled
     ui->checkPads->setDisabled(true);
