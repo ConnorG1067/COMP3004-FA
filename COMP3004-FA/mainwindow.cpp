@@ -94,7 +94,7 @@ void MainWindow::initializeBtns(){
 
     // Initalize voice system
     connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){this->ui->textInstructions->append(this->aed->getVoiceSystem()->getCurrentInstruction());});
-    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 200, 100, 35, 0); });
+    connect(this->aed->getVoiceSystem(), &VoiceSystem::textInstructionUpdatedForDisplay, this, [=](){placeImage(this->imageInstructionScene, QString(this->aed->getVoiceSystem()->getCurrentIllustrationPath()), 160, 80, 35, 0); });
 }
 
 // Function that is ran on the UI contructor to update UI
