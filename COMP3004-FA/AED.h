@@ -7,6 +7,9 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <thread>
+#include <QRandomGenerator>
+#include <functional>
+
 
 #include "VoiceSystem.h"
 #include "Victim.h"
@@ -28,6 +31,8 @@ class AED : public QObject {
         QTimer* CPRTimer;
         QElapsedTimer* CPRElapsedTimer;
         QElapsedTimer* CPRElapsedIterationTimer;
+
+        std::function<void()> mainWindowResetCallback;
 
         // Ints
         int batteryLevel = 100;
@@ -60,6 +65,9 @@ class AED : public QObject {
         // CPR iterations
         int cprIterations;
 
+        // Await Audio
+        void awaitAudio(QString, QString, QString, std::function<void()>);
+
         // Perform Compression
         void performCompression(int compressionType);
 
@@ -87,6 +95,7 @@ class AED : public QObject {
         void setElectrodePadPair(ElectrodePadPair* newPair) { this->electrodePads = newPair; }
         void setShockAdministered(bool newShockAdministered) { this->shockAdministered = newShockAdministered; }
         void setCprIterations(int newIteration) { this->cprIterations = newIteration; }
+        void setMainWindowResetCallback(std::function<void()> newFunc) { this->mainWindowResetCallback = newFunc; }
 
         void startCPR();
 
