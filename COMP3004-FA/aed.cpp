@@ -2,6 +2,7 @@
 
 // AED constructor
 AED::AED() {
+
     // Create an electrodePadPair
     this->electrodePads = new ElectrodePadPair(new AdultElectrode(), new AdultElectrode());
     // Voice system
@@ -11,6 +12,7 @@ AED::AED() {
     this->CPRTimer->setInterval(600);
 
     this->CPRElapsedTimer = new QElapsedTimer();
+    this->CPRElapsedIterationTimer = new QElapsedTimer();
 
     // Connect flash shock button timer to timer function
     QObject::connect(CPRTimer, SIGNAL(timeout()), this, SLOT(CPRTimerFn()));
@@ -33,11 +35,61 @@ bool AED::powerOn() {
 void AED::startCPR(){
     this->CPRElapsedTimer->start();
     this->getCPRTimer()->start();
+    this->CPRElapsedIterationTimer->start();
 }
 
 // CPR Timer function
 void AED::CPRTimerFn(){
-    this->voiceSystem->initiateSound("qrc:/audios/src/audios/CPRTick.mp3");
+    // 10 seconds of cpr
+    if(this->CPRElapsedIterationTimer->elapsed() <= 10000){
+        // Play tick sound
+        this->voiceSystem->initiateSound("qrc:/audios/src/audios/CPRTick.mp3");
+    // Greater than 10 seconds
+    }else{
+        // Stop the timers
+        this->CPRElapsedIterationTimer->invalidate();
+        this->getCPRTimer()->stop();
+
+        // Decrement the cpr iterations
+        (this->cprIterations)--;
+        // If we still have iterations
+        if(this->cprIterations > 0) {
+            // Check for a shock
+            if(this->getIsReadyForShock()){
+                this->shock();
+            // Perform more cpr
+            }else{
+                this->startCPR();
+            }
+        }else{
+            int responsiveProbability = QRandomGenerator::global()->bounded(0, 9);
+
+            awaitAudio((responsiveProbability < 3) ? "qrc:/audios/src/audios/unresponsive.mp3" : "qrc:/audios/src/audios/responsive.mp3", ":/images/src/img/ems_arrival.png", "Await EMS", [this] () {
+                this->mainWindowResetCallback();
+            });
+        }
+
+//        if(this->cprIterations == 0){
+
+//        }
+    }
+}
+
+void AED::awaitAudio(QString audioPath, QString imgPath, QString textInstructions, std::function<void()> operationAfterAudio) {
+    QTimer* timer = new QTimer;
+    bool* isPlayed = new bool(false);
+    QObject::connect(timer, &QTimer::timeout, [this, timer, operationAfterAudio, textInstructions, imgPath, audioPath, isPlayed]() {
+        if(!(*isPlayed)){
+            (*isPlayed) = true;
+            this->voiceSystem->initiateAudioAndTextIntruction(audioPath, imgPath, textInstructions);
+        }else if(this->voiceSystem->getAudioInstructions()->state() == QMediaPlayer::StoppedState && isPlayed){
+            operationAfterAudio();
+            timer->stop();
+            timer->deleteLater();
+        }
+    });
+    timer->setInterval(1000);
+    timer->start();
 }
 
 // Power on the aed
@@ -47,8 +99,6 @@ void AED::performCompression(int compressionType = 0){
 
     long long compressionTiming = this->CPRElapsedTimer->elapsed();
     this->CPRElapsedTimer->restart();
-
-    qDebug() << compressionTiming;
 
     for(int i = 0; i < 4; i++){
         this->CPRCompressions[i] = this->CPRCompressions[i+1];
@@ -86,25 +136,20 @@ void AED::performCompression(int compressionType = 0){
 }
 
 // Set is ready for shock
-void AED::setIsReadyForShock(bool isReady){
+void AED::readyForShockFunctionality(){
     // If it is ready
-    if(isReady) {
+    if(this->readyForShock) {
         // Play the shock advised audio
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
-        // emit the flashShockBtn
-        this->startCPR();
+        emit flashShockButtonSignal();
     }else{
-        this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzing.png", "Shock not advised. Begin CPR");
+        awaitAudio("qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
     }
-    // Set the variable is ready for shock
-    this->readyForShock = isReady;
 }
 
 // Shock function
 void AED::shock() {
     emit this->shockSignal();
-
-    this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR");
-    this->startCPR();
+    awaitAudio("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
 }
 
