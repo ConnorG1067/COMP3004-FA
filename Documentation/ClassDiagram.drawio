@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-11-29T17:23:14.855Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="5r1CfQSYAZgoUP0RFnp7" version="22.1.2" type="device">
+<mxfile host="Electron" modified="2023-11-29T20:34:40.862Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="OOHzAKLutsRlpKhyajAT" version="22.1.2" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="2555" dy="527" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="5798" dy="2424" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -452,7 +452,7 @@
         <mxCell id="KR3bMcA9KSHUCbuU7-4R-61" value="- displayTextInstructions(QString)    " style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="KR3bMcA9KSHUCbuU7-4R-0">
           <mxGeometry y="338" width="460" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KR3bMcA9KSHUCbuU7-4R-62" value="- flashShockButton" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="KR3bMcA9KSHUCbuU7-4R-0">
+        <mxCell id="KR3bMcA9KSHUCbuU7-4R-62" value="- flashShockButton()" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="KR3bMcA9KSHUCbuU7-4R-0">
           <mxGeometry y="364" width="460" height="26" as="geometry" />
         </mxCell>
         <mxCell id="KR3bMcA9KSHUCbuU7-4R-63" value="- determineElectrodes()" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="KR3bMcA9KSHUCbuU7-4R-0">
@@ -511,6 +511,15 @@
         </mxCell>
         <mxCell id="KR3bMcA9KSHUCbuU7-4R-55" value="+ placeChildElectrodeBtn()" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="KR3bMcA9KSHUCbuU7-4R-0">
           <mxGeometry y="840" width="460" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="KR3bMcA9KSHUCbuU7-4R-64" value="" style="endArrow=diamond;html=1;rounded=0;exitX=0.46;exitY=1.044;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;strokeWidth=1;targetPerimeterSpacing=-8;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="mS6mlWQKrVPraTfN2Xsa-50" target="KR3bMcA9KSHUCbuU7-4R-0">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="917" as="sourcePoint" />
+            <mxPoint x="340" y="911" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KR3bMcA9KSHUCbuU7-4R-65" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="595" y="1208" width="30" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
