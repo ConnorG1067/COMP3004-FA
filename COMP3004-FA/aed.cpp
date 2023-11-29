@@ -2,6 +2,7 @@
 
 // AED constructor
 AED::AED() {
+
     // Create an electrodePadPair
     this->electrodePads = new ElectrodePadPair(new AdultElectrode(), new AdultElectrode());
     // Voice system
@@ -67,6 +68,10 @@ void AED::CPRTimerFn(){
                 this->mainWindowResetCallback();
             });
         }
+
+//        if(this->cprIterations == 0){
+
+//        }
     }
 }
 
@@ -138,14 +143,13 @@ void AED::readyForShockFunctionality(){
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
         emit flashShockButtonSignal();
     }else{
-        awaitAudio("qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", ":/images/src/img/startCPR.png", "Start CPR", [this] () { this->startCPR(); });
+        awaitAudio("qrc:/audios/src/audios/ShockNotAdvisedBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
     }
 }
 
 // Shock function
 void AED::shock() {
-
     emit this->shockSignal();
-    awaitAudio("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/startCPR.png", "Start CPR", [this] () { this->startCPR(); });
+    awaitAudio("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
 }
 
