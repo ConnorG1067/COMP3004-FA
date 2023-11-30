@@ -87,6 +87,8 @@ class AED : public QObject {
         Victim* getVictim() { return this->victim; }
         VoiceSystem* getVoiceSystem() { return this->voiceSystem; }
         QTimer* getCPRTimer() { return this->CPRTimer; }
+        QElapsedTimer* getCPRElapsedTimer() { return this->CPRElapsedTimer; }
+        QElapsedTimer* getCPRElapsedIterationTimer() { return this->CPRElapsedIterationTimer; }
 
         // Setters
         void setPatientDisturbed(bool isDisturbed) { this->patientDisturbed = isDisturbed; }
