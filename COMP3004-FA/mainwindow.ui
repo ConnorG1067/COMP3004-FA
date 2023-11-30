@@ -134,6 +134,9 @@ p, li { white-space: pre-wrap; }
     </property>
    </widget>
    <widget class="QPushButton" name="shock">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -280,6 +283,9 @@ QRadioButton::indicator:unchecked {
     </property>
    </widget>
    <widget class="QPushButton" name="disturbPatientBtn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -553,7 +559,7 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QPushButton" name="misPlacePad">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -743,7 +749,7 @@ Electro Pad</string>
    </widget>
    <widget class="QPushButton" name="compression">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -759,7 +765,7 @@ Electro Pad</string>
    </widget>
    <widget class="QPushButton" name="poorCompression">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>

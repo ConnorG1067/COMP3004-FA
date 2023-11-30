@@ -73,6 +73,9 @@ void MainWindow::initializeBtns(){
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+    // Connect AED shock button to the shock function
+    connect(ui->shockButton, &QPushButton::released, this, [this](){this->aed->shock();});
+
     // Disturb the patient
     connect(ui->disturbPatientBtn, &QPushButton::released, this, [this](){this->aed->setPatientDisturbed(true);});
 
@@ -148,7 +151,6 @@ void MainWindow::powerBtn() {
         this->aed->getCPRElapsedTimer()->invalidate();
         this->aed->getCPRElapsedTimer()->invalidate();
 
-
         // Reset the radio btns to their default values
         resetRadioBtns();
 
@@ -190,6 +192,9 @@ void MainWindow::displayTextInstruction(QString message) {
 
 // Generates the AI during a self check
 void MainWindow::selfCheckUI(bool isSuccessful) {
+
+    this->ui->disturbPatientBtn->setEnabled(true);
+    this->ui->disturbPatientBtn->setEnabled(true);
 
     // Make a progress bar and a textItem
     QProgressBar *progressBar = new QProgressBar();
@@ -245,10 +250,12 @@ void MainWindow::displayDummy() {
     // Place the dummy.jpg image on the instruction scene
     placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
 
-    // Make the electrodes button enabled
+    // Enable various buttons
     ui->placeElectrodesBtn->setEnabled(true);
-    // Make the misplace electrodes button enabled
     ui->misPlacePad->setEnabled(true);
+    ui->disturbPatientBtn->setEnabled(true);
+    ui->shock->setEnabled(true);
+
 }
 
 // Place btn function
@@ -389,7 +396,6 @@ void MainWindow::placeChildElectrodeBtn() {
 
 // Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
-    qDebug() << this->aed->getPatientDisturbed();
     indiciatorSwitch(ui->checkPads, [this] () {
         // If the pads are not faulty then proced
         if(!this->aed->getFaultyPadPlacment()) {
