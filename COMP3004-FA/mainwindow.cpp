@@ -154,6 +154,8 @@ void MainWindow::powerBtn() {
 
         // Disable the adult and child electrode btns
         ui->placeElectrodesBtn->setEnabled(false);
+        // Disable the misplace pad btn
+        ui->misPlacePad->setEnabled(false);
     }
     // Set us on to the negation of itself
     this->aed->setIsOn(!this->aed->getIsOn());
@@ -227,7 +229,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
         if(value.toInt() >= randomStopValue && !isSuccessful) {
-            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT OKAY");
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "Unit not okay. Call 911");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);
             animation->stop();
@@ -245,6 +247,8 @@ void MainWindow::displayDummy() {
 
     // Make the electrodes button enabled
     ui->placeElectrodesBtn->setEnabled(true);
+    // Make the misplace electrodes button enabled
+    ui->misPlacePad->setEnabled(true);
 }
 
 // Place btn function
@@ -396,6 +400,8 @@ void MainWindow::callIndicatorSwitchLambdas() {
                     indiciatorSwitch(ui->analyzing, [this] () {
                         // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
                         indiciatorSwitch(ui->shockableRhythm, [this] () {
+                            this->ui->compression->setEnabled(true);
+                            this->ui->poorCompression->setEnabled(true);
                             this->aed->setIsReadyForShock(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm");
                             this->aed->readyForShockFunctionality();
                         }, [this] () { if(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Attempting to detect shockable heart rhythm"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
