@@ -70,8 +70,6 @@ void MainWindow::initializeBtns(){
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
-    // Disturb the patient
-    connect(ui->disturbPatientBtn, &QPushButton::released, this, [this](){this->aed->setPatientDisturbed(true);});
 
     // Connect flash shock button timer to timer function
     connect(flashTimer, SIGNAL(timeout()), this, SLOT(flashShockButton()));
@@ -218,7 +216,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
         if(value.toInt() >= randomStopValue && !isSuccessful) {
-            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT OKAY");
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT NOT OKAY");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);
             animation->stop();
@@ -376,24 +374,22 @@ void MainWindow::placeChildElectrodeBtn() {
 
 // Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
-    qDebug() << this->aed->getPatientDisturbed();
+
+
     indiciatorSwitch(ui->checkPads, [this] () {
         // If the pads are not faulty then proced
         if(!this->aed->getFaultyPadPlacment()) {
             // Don't touch the patient
             indiciatorSwitch(ui->doNotTouchPatient, [this] () {
-                if(!this->aed->getPatientDisturbed()) {
-                    // Analyze the patient
-                    indiciatorSwitch(ui->analyzing, [this] () {
-                        // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
-                        indiciatorSwitch(ui->shockableRhythm, [this] () {
-                            this->aed->setIsReadyForShock(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm");
-                            this->aed->readyForShockFunctionality();
-                        }, [this] () { if(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
-                    }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
-                }
-            }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, !(this->aed->getPatientDisturbed()));
-//            this->aed->setPatientDisturbed(false);
+                // Analyze the patient
+                indiciatorSwitch(ui->analyzing, [this] () {
+                    // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
+                    indiciatorSwitch(ui->shockableRhythm, [this] () {
+                        this->aed->setIsReadyForShock(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm");
+                        this->aed->readyForShockFunctionality();
+                    }, [this] () { if(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Analyzing"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
+                }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/AnalyzingHR.mp3", ":/images/src/img/analyzingHeart.png", "Analyzing"); }, true);
+            }, [this] () { this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/DoNotTouch.mp3", ":/images/src/img/analyzing.png", "Do not touch"); }, true);
         }
         // Set the faulty pad placement to false
         this->aed->setFaultyPadPlacement(false);
