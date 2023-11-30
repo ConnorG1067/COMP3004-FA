@@ -44,6 +44,7 @@ class AED : public QObject {
         bool faultyPadPlacement = false;
         bool readyForShock = false;
         bool shockAdministered = false;
+        bool patientDisturbed = false;
 
         int CPRCompressions[5] = {0,0,0,0,0};
         int CPRCompressionTimings[5] = {0,0,0,0,0};
@@ -75,6 +76,7 @@ class AED : public QObject {
 
         // Getters
         bool getIsOn() { return this->isOn; }
+        bool getPatientDisturbed() { return this->patientDisturbed; }
         bool getIsReadyForShock() { return this->readyForShock; }
         int getBatteryLevel() { return this->batteryLevel; }
         bool getCorrectPadPos() { return this->correctPadPos; }
@@ -87,6 +89,7 @@ class AED : public QObject {
         QTimer* getCPRTimer() { return this->CPRTimer; }
 
         // Setters
+        void setPatientDisturbed(bool isDisturbed) { this->patientDisturbed = isDisturbed; }
         void setIsReadyForShock(bool shockVal) { this->readyForShock = shockVal; }
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
