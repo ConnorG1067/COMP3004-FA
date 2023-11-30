@@ -56,7 +56,7 @@ void AED::CPRTimerFn(){
         if(this->cprIterations > 0) {
             // Check for a shock
             if(this->getIsReadyForShock()){
-                this->shock();
+                this->readyForShockFunctionality();
             // Perform more cpr
             }else{
                 this->startCPR();
@@ -68,10 +68,6 @@ void AED::CPRTimerFn(){
                 this->mainWindowResetCallback();
             });
         }
-
-//        if(this->cprIterations == 0){
-
-//        }
     }
 }
 
@@ -150,6 +146,6 @@ void AED::readyForShockFunctionality(){
 // Shock function
 void AED::shock() {
     emit this->shockSignal();
-    awaitAudio("qrc:/audios/src/audios/shockOneDeliveredBeginCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
+    awaitAudio("qrc:/audios/src/audios/ShockDeliveredCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
 }
 

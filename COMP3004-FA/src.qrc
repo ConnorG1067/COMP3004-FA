@@ -18,6 +18,7 @@
         <file>src/audios/ShockNotAdvisedBeginCPR.mp3</file>
         <file>src/audios/responsive.mp3</file>
         <file>src/audios/unresponsive.mp3</file>
+        <file>src/audios/ShockDeliveredCPR.mp3</file>
     </qresource>
     <qresource prefix="/images">
         <file>src/img/analyzing.png</file>
