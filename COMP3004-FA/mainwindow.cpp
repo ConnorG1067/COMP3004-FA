@@ -73,6 +73,9 @@ void MainWindow::initializeBtns(){
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
+    // Connect AED shock button to the shock function
+    connect(ui->shockButton, &QPushButton::released, this, [this](){this->aed->shock();});
+
     // Disturb the patient
     connect(ui->disturbPatientBtn, &QPushButton::released, this, [this](){this->aed->setPatientDisturbed(true);});
 
@@ -148,12 +151,13 @@ void MainWindow::powerBtn() {
         this->aed->getCPRElapsedTimer()->invalidate();
         this->aed->getCPRElapsedTimer()->invalidate();
 
-
         // Reset the radio btns to their default values
         resetRadioBtns();
 
         // Disable the adult and child electrode btns
         ui->placeElectrodesBtn->setEnabled(false);
+        // Disable the misplace pad btn
+        ui->misPlacePad->setEnabled(false);
     }
     // Set us on to the negation of itself
     this->aed->setIsOn(!this->aed->getIsOn());
@@ -188,6 +192,9 @@ void MainWindow::displayTextInstruction(QString message) {
 
 // Generates the AI during a self check
 void MainWindow::selfCheckUI(bool isSuccessful) {
+
+    this->ui->disturbPatientBtn->setEnabled(true);
+    this->ui->disturbPatientBtn->setEnabled(true);
 
     // Make a progress bar and a textItem
     QProgressBar *progressBar = new QProgressBar();
@@ -227,7 +234,7 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
     QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
         if(value.toInt() >= randomStopValue && !isSuccessful) {
-            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "UNIT OKAY");
+            this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "Unit not okay. Call 911");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);
             animation->stop();
@@ -243,8 +250,12 @@ void MainWindow::displayDummy() {
     // Place the dummy.jpg image on the instruction scene
     placeImage(this->instructionScene, ":/images/src/img/dummy.jpg", 186, 220, 35, 0);
 
-    // Make the electrodes button enabled
+    // Enable various buttons
     ui->placeElectrodesBtn->setEnabled(true);
+    ui->misPlacePad->setEnabled(true);
+    ui->disturbPatientBtn->setEnabled(true);
+    ui->shock->setEnabled(true);
+
 }
 
 // Place btn function
@@ -385,7 +396,6 @@ void MainWindow::placeChildElectrodeBtn() {
 
 // Call the indicator progress
 void MainWindow::callIndicatorSwitchLambdas() {
-    qDebug() << this->aed->getPatientDisturbed();
     indiciatorSwitch(ui->checkPads, [this] () {
         // If the pads are not faulty then proced
         if(!this->aed->getFaultyPadPlacment()) {
@@ -396,6 +406,8 @@ void MainWindow::callIndicatorSwitchLambdas() {
                     indiciatorSwitch(ui->analyzing, [this] () {
                         // Determine a shockable rhythm if the condition is not Normal Sinus Rhythm
                         indiciatorSwitch(ui->shockableRhythm, [this] () {
+                            this->ui->compression->setEnabled(true);
+                            this->ui->poorCompression->setEnabled(true);
                             this->aed->setIsReadyForShock(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm");
                             this->aed->readyForShockFunctionality();
                         }, [this] () { if(this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm")this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/ShockableHeartRhythmFound.mp3", (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm") ?  ":/images/src/img/shockadvised_img.png" : ":/images/src/img/noShockAdvised.png", "Attempting to detect shockable heart rhythm"); }, (this->aed->getVictim()->getCondition()->getConditionName() != "Normal Sinus Rhythm"));
