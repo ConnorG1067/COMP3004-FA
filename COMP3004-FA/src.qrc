@@ -22,6 +22,21 @@
         <file>src/img/openPadPackage.png</file>
         <file>src/img/nsr_ecg.png</file>
         <file>src/img/ventricular_fibrillation_ecg.png</file>
-        <file>src/img/ventricular_teachycardia_ecg.png</file>
+        <file>src/img/aed.png</file>
+        <file>src/img/aedNoButtons.png</file>
+        <file>src/img/analyzingHeart.png</file>
+        <file>src/img/childButton.png</file>
+        <file>src/img/continueCPR.png</file>
+        <file>src/img/goodCompressions.png</file>
+        <file>src/img/noShockAdvised.png</file>
+        <file>src/img/powerbutton.png</file>
+        <file>src/img/pushHarder.png</file>
+        <file>src/img/shockbutton.png</file>
+        <file>src/img/startCPR.png</file>
+        <file>src/img/not_okay_img.png</file>
+        <file>src/img/check_mark_img.png</file>
+        <file>src/img/shockadvised_img.png</file>
+        <file>src/img/ems_arrival.png</file>
+        <file>src/img/ventricular_tachycardia_ecg.png</file>
     </qresource>
 </RCC>

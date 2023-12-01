@@ -229,15 +229,15 @@ QString MainWindow::determineCondition() {
     // If the VentricularFibrillationRB is checked then return the img path
     }else if(ui->ventricularFibrillationRB->isChecked()){
         return ":/images/src/img/ventricular_fibrillation_ecg.png";
-    // Otherwise return the ventricular teachycardia path
+    // Otherwise return the ventricular tachycardia path
     }else{
-        return ":/images/src/img/ventricular_teachycardia_ecg.png";
+        return ":/images/src/img/ventricular_tachycardia_ecg.png";
     }
 }
 
 // Based on an image path return a child class of CardiacArrhythmias
 CardiacArrhythmias* MainWindow::imgPathToCardiac(QString imgPath) {
-    if(imgPath == ":/images/src/img/ventricular_teachycardia_ecg.png"){
+    if(imgPath == ":/images/src/img/ventricular_tachycardia_ecg.png"){
         return new VentricularTachycardia();
     }else if(imgPath == ":/images/src/img/ventricular_fibrillation_ecg.png"){
         return new VentricularFibrillation();
