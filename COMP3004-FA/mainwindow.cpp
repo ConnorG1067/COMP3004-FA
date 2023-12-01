@@ -139,7 +139,7 @@ void MainWindow::powerBtn() {
     // If it is not on
     if(!this->aed->getIsOn()) {
         // Do a self check and pass the value into the selfCheckUI function
-        selfCheckUI(this->aed->getIsFunctional());
+        selfCheckUI();
     }else{
         // Clear both scenes
         this->instructionScene->clear();
@@ -150,6 +150,9 @@ void MainWindow::powerBtn() {
         this->aed->getCPRTimer()->stop();
         this->aed->getCPRElapsedTimer()->invalidate();
         this->aed->getCPRElapsedTimer()->invalidate();
+
+        this->aed->setIsReadyForShock(false);
+        ui->shock->setStyleSheet("background-color: red; color: black");
 
         // Reset the radio btns to their default values
         resetRadioBtns();
@@ -191,7 +194,7 @@ void MainWindow::displayTextInstruction(QString message) {
 }
 
 // Generates the AI during a self check
-void MainWindow::selfCheckUI(bool isSuccessful) {
+void MainWindow::selfCheckUI() {
 
     this->ui->disturbPatientBtn->setEnabled(true);
     this->ui->disturbPatientBtn->setEnabled(true);
@@ -231,9 +234,9 @@ void MainWindow::selfCheckUI(bool isSuccessful) {
 
 
     // When the value is changed check if we need to stop the animation
-    QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue, isSuccessful](const QVariant &value) {
+    QObject::connect(animation, &QPropertyAnimation::valueChanged, [this, animation, randomStopValue](const QVariant &value) {
         // Check if the current value is greater than or equal to the randomStop value and we want a failure
-        if(value.toInt() >= randomStopValue && !isSuccessful) {
+        if(value.toInt() >= randomStopValue && !(this->aed->getIsFunctional())) {
             this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/UnitNotOkay.mp3", ":/images/src/img/not_okay_img.png", "Unit not okay. Call 911");
             // Switch the is functional back to true
             this->aed->setIsFunctional(true);

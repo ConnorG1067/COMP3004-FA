@@ -67,6 +67,8 @@ void AED::CPRTimerFn(){
             awaitAudio((responsiveProbability < 3) ? "qrc:/audios/src/audios/unresponsive.mp3" : "qrc:/audios/src/audios/responsive.mp3", ":/images/src/img/ems_arrival.png", "Await EMS", [this] () {
                 this->mainWindowResetCallback();
             });
+
+            this->readyForShock = false;
         }
     }
 }
@@ -145,7 +147,9 @@ void AED::readyForShockFunctionality(){
 
 // Shock function
 void AED::shock() {
-    emit this->shockSignal();
-    awaitAudio("qrc:/audios/src/audios/ShockDeliveredCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
+    if(this->readyForShock){
+        emit this->shockSignal();
+        awaitAudio("qrc:/audios/src/audios/ShockDeliveredCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });
+    }
 }
 

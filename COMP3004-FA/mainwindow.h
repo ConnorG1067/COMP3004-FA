@@ -59,7 +59,7 @@ class MainWindow : public QMainWindow
         // function to setup connections-
         void initializeBtns();
         void initializeStartingUI();
-        void selfCheckUI(bool);
+        void selfCheckUI();
         void displayDummy();
         void callIndicatorSwitchLambdas();
 
