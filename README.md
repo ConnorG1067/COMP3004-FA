@@ -2,20 +2,19 @@
 
 # Automated External Defibrillator (AED) Device
 
-![AED Device](link_to_your_image)
+![AED Device](Documentation/AED.png)
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Dependencies](#dependencies)
+- [Installation and Usage](#installation-and-usage)
+- [Testing Videos](#testing-videos)
 
 ## Introduction
 
-Welcome to the Automated External Defibrillator (AED) Device repository! This project aims to provide an open-source solution for an AED device to enhance cardiac emergency response.
+Welcome to the Automated External Defibrillator (AED) Device repository, developed as the final project for the Carleton University COMP 3004 course. This project serves as the culmination of our academic endeavors, where we were tasked with the development of an AED device as part of our coursework. Designed for educational purposes, this repository showcases our efforts in creating a user-friendly and efficient AED, incorporating automated analysis, real-time feedback, and customization features.
 
 ## Features
 
@@ -25,35 +24,65 @@ Welcome to the Automated External Defibrillator (AED) Device repository! This pr
 - **Data Logging**: Log and store critical data for post-incident analysis and reporting.
 - **Customization**: Configurable settings to adapt to various scenarios and user preferences.
 
-## Getting Started
+## Dependencies:
 
-### Prerequisites
+audio codec for mp3 files
 
-- List any hardware or software dependencies.
+        sudo apt-get install ubuntu-restricted-extras
 
-### Installation
+pulseaudio to connect QMediaPlayer
+
+        sudo apt-get install pulseaudio
+
+- make sure that this is running. May need to reboot VM
+
+volume control
+
+        sudo apt-get install alsa-utils
+
+- Set volume from the terminal with "amixer sset 'Master' 100%"
+
+
+multimedia support:
+
+        sudo apt-get install qtmultimedia5-dev libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5
+
+## Installation and Usage
 
 1. Clone the repository.
    ```bash
    git clone https://github.com/your-username/AED-Device.git
-   cd AED-Device
+   ```
+2. Unzip the file
+3. Download all [Dependencies](#dependencies)
+4. Open the project in QT Creator
+5. Run the project
 
-### Testing Videos
+## Testing Videos
 
-Normal Sinus Rythm Situation:
-https://youtu.be/eY60vmv3HHE
+Explore our testing videos to observe the AED device in various scenarios:
 
-Multiple Iteration Shock:
-https://youtu.be/GQFw9w6Xq3s
+1. **Normal Sinus Rhythm Situation:**
+   [![Normal Sinus Rhythm](https://img.youtube.com/vi/eY60vmv3HHE/0.jpg)](https://youtu.be/eY60vmv3HHE)
 
-Ventricular Tachycardia:
-https://youtu.be/_QIoJ-EoVts
+2. **Multiple Iteration Shock:**
+   [![Multiple Iteration Shock](https://img.youtube.com/vi/GQFw9w6Xq3s/0.jpg)](https://youtu.be/GQFw9w6Xq3s)
 
-Ventricular Fibrillation:
-https://youtu.be/_CYXNq2JeBI
+3. **Ventricular Tachycardia:**
+   [![Ventricular Tachycardia](https://img.youtube.com/vi/_QIoJ-EoVts/0.jpg)](https://youtu.be/_QIoJ-EoVts)
 
-Electro Pad Misplacement:
-https://youtu.be/vWiX5KCGt-M
+4. **Ventricular Fibrillation:**
+   [![Ventricular Fibrillation](https://img.youtube.com/vi/_CYXNq2JeBI/0.jpg)](https://youtu.be/_CYXNq2JeBI)
+
+5. **Electro Pad Misplacement:**
+   [![Electro Pad Misplacement](https://img.youtube.com/vi/vWiX5KCGt-M/0.jpg)](https://youtu.be/vWiX5KCGt-M)
+
+6. **Compressions:**
+   [![Compressions](https://img.youtube.com/vi/5Cq4QjJUxbI/0.jpg)](https://youtu.be/5Cq4QjJUxbI)
+
+7. **Child Pads:**
+   [![Child Pads](https://img.youtube.com/vi/oTlzZroOPsw/0.jpg)](https://youtu.be/oTlzZroOPsw)
+
 
 Compressions:
 https://youtu.be/5Cq4QjJUxbI
