@@ -82,3 +82,9 @@ Explore our testing videos to observe the AED device in various scenarios:
 
 7. **Child Pads:** <br>
    [![Child Pads](https://img.youtube.com/vi/oTlzZroOPsw/0.jpg)](https://youtu.be/oTlzZroOPsw)
+
+8. **Disturb Patient:** <br>
+   [![Disturb Patient](https://img.youtube.com/vi/sDjFFqJ2KaQ/0.jpg)](https://youtu.be/sDjFFqJ2KaQ)
+   
+9. **On/Off/Failed Setup:** <br>
+   [![On/Off/Failed Setup](https://img.youtube.com/vi/tTE2ng15ZUY/0.jpg)](https://youtu.be/tTE2ng15ZUY)
