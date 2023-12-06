@@ -62,23 +62,23 @@ multimedia support:
 
 Explore our testing videos to observe the AED device in various scenarios:
 
-1. **Normal Sinus Rhythm Situation:**
+1. **Normal Sinus Rhythm Situation:** <br>
    [![Normal Sinus Rhythm](https://img.youtube.com/vi/eY60vmv3HHE/0.jpg)](https://youtu.be/eY60vmv3HHE)
 
-2. **Multiple Iteration Shock:**
+2. **Multiple Iteration Shock:** <br>
    [![Multiple Iteration Shock](https://img.youtube.com/vi/GQFw9w6Xq3s/0.jpg)](https://youtu.be/GQFw9w6Xq3s)
 
-3. **Ventricular Tachycardia:**
+3. **Ventricular Tachycardia:** <br>
    [![Ventricular Tachycardia](https://img.youtube.com/vi/_QIoJ-EoVts/0.jpg)](https://youtu.be/_QIoJ-EoVts)
 
-4. **Ventricular Fibrillation:**
+4. **Ventricular Fibrillation:** <br>
    [![Ventricular Fibrillation](https://img.youtube.com/vi/_CYXNq2JeBI/0.jpg)](https://youtu.be/_CYXNq2JeBI)
 
-5. **Electro Pad Misplacement:**
+5. **Electro Pad Misplacement:** <br>
    [![Electro Pad Misplacement](https://img.youtube.com/vi/vWiX5KCGt-M/0.jpg)](https://youtu.be/vWiX5KCGt-M)
 
-6. **Compressions:**
+6. **Compressions:** <br>
    [![Compressions](https://img.youtube.com/vi/5Cq4QjJUxbI/0.jpg)](https://youtu.be/5Cq4QjJUxbI)
 
-7. **Child Pads:**
+7. **Child Pads:** <br>
    [![Child Pads](https://img.youtube.com/vi/oTlzZroOPsw/0.jpg)](https://youtu.be/oTlzZroOPsw)
