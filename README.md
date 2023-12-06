@@ -82,10 +82,3 @@ Explore our testing videos to observe the AED device in various scenarios:
 
 7. **Child Pads:**
    [![Child Pads](https://img.youtube.com/vi/oTlzZroOPsw/0.jpg)](https://youtu.be/oTlzZroOPsw)
-
-
-Compressions:
-https://youtu.be/5Cq4QjJUxbI
-
-Child Pads:
-https://youtu.be/oTlzZroOPsw
