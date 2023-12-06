@@ -2,7 +2,7 @@
 
 # Automated External Defibrillator (AED) Device
 
-![AED Device](link_to_your_image)
+![AED Device](COMP3004-FA/Documentation/AED.png)
 
 ## Table of Contents
 
