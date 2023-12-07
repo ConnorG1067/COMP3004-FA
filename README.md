@@ -22,6 +22,7 @@ Welcome to the Automated External Defibrillator (AED) Device repository, develop
 
 ## Team Members
 Will Chartrand
+Connor Gomes
 
 ## Distribution of Deliverables
 
