@@ -21,8 +21,9 @@
 Welcome to the Automated External Defibrillator (AED) Device repository, developed as the final project for the Carleton University COMP 3004 course. This project serves as the culmination of our academic endeavors, where we were tasked with the development of an AED device as part of our coursework. Designed for educational purposes, this repository showcases our efforts in creating a user-friendly and efficient AED, incorporating automated analysis, real-time feedback, and customization features.
 
 ## Team Members
-Will Chartrand
+
 Connor Gomes
+Will Chartrand
 
 ## Distribution of Deliverables
 
