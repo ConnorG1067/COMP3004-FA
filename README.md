@@ -7,6 +7,9 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Distribution of Deliverables](#distribution-of-deliverables)
+  - [Implementation](#implementation)
+  - [Documentation](#documentation)
 - [Features](#features)
 - [Dependencies](#dependencies)
 - [Installation and Usage](#installation-and-usage)
@@ -15,6 +18,45 @@
 ## Introduction
 
 Welcome to the Automated External Defibrillator (AED) Device repository, developed as the final project for the Carleton University COMP 3004 course. This project serves as the culmination of our academic endeavors, where we were tasked with the development of an AED device as part of our coursework. Designed for educational purposes, this repository showcases our efforts in creating a user-friendly and efficient AED, incorporating automated analysis, real-time feedback, and customization features.
+
+## Distribution of Deliverables
+
+### Implementation
+
+#### Shared Work
+- Simulated user interaction controls (e.g., buttons for electrode placement).
+- Include a display panel to show the simulated ECG (electrocardiogram) waveform and device status.
+- Simulate the analysis process where the AED Plus detects the heart rhythm.
+- Implement an interactive system that allows users to perform actions mimicking real-world AED operation.
+- Provide input mechanisms for electrode placement, shock delivery, and CPR initiation.
+
+#### Connor
+- Cardiac arrhythmia diagnosis results (see the shockable-non-shockable).
+- Device status indicators (e.g., battery, electrode placement).
+- Specify scenarios of a simulated cardiac emergency with visual prompts and their timing to guide the user through a rescue situation.
+- Develop scenarios with varying patient conditions, user responses, and outcomes to test your software.
+
+#### Will
+- Design the software for a graphical user interface (GUI) that resembles the AED Plus's display.
+- Real-time CPR feedback.
+- If a shockable rhythm is detected, display a message on the screen and provide textual instructions on how to prepare and deliver a shock.
+- If a non-shockable rhythm is detected, provide appropriate textual guidance for CPR (Cardiopulmonary Resuscitation).
+- Create a system that emulates the real-time CPR feedback feature of the AED Plus.
+- Simulate the measurement and assessment of chest compressions, delivering visual and textual feedback to guide the user.
+
+### Documentation
+
+#### Connor
+- UML Class Diagram.
+- Use Cases.
+- Textual Explanation.
+- Videos.
+
+#### Will
+- Sequence Diagrams.
+- State Diagram.
+- Traceability Matrix.
+
 
 ## Features
 
