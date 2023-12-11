@@ -19,6 +19,8 @@
         <file>src/audios/responsive.mp3</file>
         <file>src/audios/unresponsive.mp3</file>
         <file>src/audios/ShockDeliveredCPR.mp3</file>
+        <file>src/audios/batterycriticallylow.mp3</file>
+        <file>src/audios/lostconnection.mp3</file>
     </qresource>
     <qresource prefix="/images">
         <file>src/img/analyzing.png</file>
@@ -45,5 +47,7 @@
         <file>src/img/shockadvised_img.png</file>
         <file>src/img/ems_arrival.png</file>
         <file>src/img/ventricular_tachycardia_ecg.png</file>
+        <file>src/img/connectionlost.jpg</file>
+        <file>src/img/lowbattery.jpg</file>
     </qresource>
 </RCC>

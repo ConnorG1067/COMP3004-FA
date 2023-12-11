@@ -22,12 +22,13 @@ AED::AED() {
 bool AED::powerOn() {
     // If the battery is not 0
     if(this->batteryLevel > 0) {
+        this->batteryLevel--;
         // turn on the aed and return true
         this->isOn = true;
         return true;
     // Otherwise return false
     }else{
-       return false;
+        return false;
     }
 }
 

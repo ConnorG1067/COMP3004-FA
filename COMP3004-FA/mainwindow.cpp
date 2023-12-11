@@ -71,10 +71,20 @@ void MainWindow::initializeBtns(){
     });
     // Sets the next setup to a fail
     connect(ui->failSetUpBtn, SIGNAL(released()), this, SLOT(failAEDSetupBtn()));
+
+    // Manually allow the user to lose connection to the device
+    connect(ui->loseconnection, &QPushButton::released, this, [this](){
+        this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/lostconnection.mp3", ":/images/src/img/connectionlost.jpg", "Lost connection. Please restart device");
+        powerBtn();
+    });
+
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
     // Connect AED shock button to the shock function
     connect(ui->shockButton, &QPushButton::released, this, [this](){this->aed->shock();});
+
+    // Connect battery level spinbox to setting the battery level on AED
+    connect(ui->batterylevel, &QSpinBox::textChanged, this, [this](){this->aed->setBatteryLevel(ui->batterylevel->value()); qDebug() << this->aed->getBatteryLevel();});
 
     // Disturb the patient
     connect(ui->disturbPatientBtn, &QPushButton::released, this, [this](){this->aed->setPatientDisturbed(true);});
@@ -137,7 +147,10 @@ void MainWindow::powerBtn() {
     ui->batteryIndicator->setChecked(!ui->batteryIndicator->isChecked());
 
     // If it is not on
-    if(!this->aed->getIsOn()) {
+    if(!this->aed->getIsOn() && this->aed->getBatteryLevel() < 1){
+        this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/batterycriticallylow.mp3", ":/images/src/img/lowbattery.jpg", "Battery critically low. Powering Off");
+    }else if(!this->aed->getIsOn()){
+        qDebug() << this->aed->getBatteryLevel();
         // Do a self check and pass the value into the selfCheckUI function
         selfCheckUI();
     }else{
