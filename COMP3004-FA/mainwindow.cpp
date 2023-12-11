@@ -289,17 +289,36 @@ void MainWindow::placeImage(QGraphicsScene* scene, QString path, int xSize, int 
     scene->addItem(pixmapItem);
 }
 
+void MainWindow::placeGif(QGraphicsScene* scene, QString gifPath) {
+    // Create a movie from the GIF file
+    QMovie* movie = new QMovie(gifPath);
+
+    // Create a QLabel to display the GIF
+    QLabel* label = new QLabel();
+    label->setMovie(movie);
+    label->setFixedSize(271, 261);
+
+    // Create a QGraphicsProxyWidget to add the QLabel to the scene
+    scene->addWidget(label);
+
+    // Set the movie for the QLabel
+    label->setMovie(movie);
+
+    // Start the movie to make the GIF play
+    movie->start();
+}
+
 // Determines the condition of the patient
 QString MainWindow::determineCondition() {
     // If the normalSinusRhythmRB is checked then return the img path
     if(ui->normalSinusRhythmRB->isChecked()){
-        return ":/images/src/img/nsr_ecg.png";
+        return ":/images/src/img/nsr_ecg.gif";
     // If the VentricularFibrillationRB is checked then return the img path
     }else if(ui->ventricularFibrillationRB->isChecked()){
-        return ":/images/src/img/ventricular_fibrillation_ecg.png";
+        return ":/images/src/img/ventricular_fibrillation_ecg.gif";
     // Otherwise return the ventricular tachycardia path
     }else{
-        return ":/images/src/img/ventricular_tachycardia_ecg.png";
+        return ":/images/src/img/ventricular_tachycardia_ecg.gif";
     }
 }
 
@@ -381,7 +400,8 @@ void MainWindow::placeAdultElectrodeBtn() {
     // Determine the patient condition
     QString patientCondition = determineCondition();
     // Place the condition image on the waveFormScene
-    placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
+    placeGif(this->waveFormScene, patientCondition);
+//    placeImage(this->waveFormScene, patientCondition, 800, 224, 35, 0);
 
     // Set the aed to a victim aged from 19-100, with a random condition
     this->aed->setVictim(new Victim(QRandomGenerator::global()->bounded(19, 101), imgPathToCardiac(patientCondition)));

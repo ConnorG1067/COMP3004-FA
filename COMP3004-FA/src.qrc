@@ -29,8 +29,8 @@
         <file>src/img/exposeBareChest.png</file>
         <file>src/img/ifChildPressButton.png</file>
         <file>src/img/openPadPackage.png</file>
-        <file>src/img/nsr_ecg.png</file>
-        <file>src/img/ventricular_fibrillation_ecg.png</file>
+        <file>src/img/nsr_ecg.gif</file>
+        <file>src/img/ventricular_fibrillation_ecg.gif</file>
         <file>src/img/aed.png</file>
         <file>src/img/aedNoButtons.png</file>
         <file>src/img/analyzingHeart.png</file>
@@ -46,7 +46,7 @@
         <file>src/img/check_mark_img.png</file>
         <file>src/img/shockadvised_img.png</file>
         <file>src/img/ems_arrival.png</file>
-        <file>src/img/ventricular_tachycardia_ecg.png</file>
+        <file>src/img/ventricular_tachycardia_ecg.gif</file>
         <file>src/img/connectionlost.jpg</file>
         <file>src/img/lowbattery.jpg</file>
     </qresource>

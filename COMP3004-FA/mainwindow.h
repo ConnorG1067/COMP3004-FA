@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsProxyWidget>
 #include <QTimer>
+#include <QMovie>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include <QGraphicsOpacityEffect>
@@ -66,6 +67,7 @@ class MainWindow : public QMainWindow
         // Helpers
         void resetRadioBtns();
         void placeImage(QGraphicsScene*, QString, int, int, int, int);
+        void placeGif(QGraphicsScene*, QString);
         QString determineCondition();
         CardiacArrhythmias* imgPathToCardiac(QString);
         void updateVictimInfo();
