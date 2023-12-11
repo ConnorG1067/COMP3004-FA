@@ -84,7 +84,7 @@ void MainWindow::initializeBtns(){
     connect(ui->shockButton, &QPushButton::released, this, [this](){this->aed->shock();});
 
     // Connect battery level spinbox to setting the battery level on AED
-    connect(ui->batterylevel, &QSpinBox::textChanged, this, [this](){this->aed->setBatteryLevel(ui->batterylevel->value()); qDebug() << this->aed->getBatteryLevel();});
+    connect(ui->batterylevel, &QSpinBox::textChanged, this, [this](){this->aed->setBatteryLevel(ui->batterylevel->value());});
 
     // Disturb the patient
     connect(ui->disturbPatientBtn, &QPushButton::released, this, [this](){this->aed->setPatientDisturbed(true);});
