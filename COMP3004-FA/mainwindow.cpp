@@ -150,6 +150,7 @@ void MainWindow::powerBtn() {
     if(!this->aed->getIsOn() && this->aed->getBatteryLevel() < 1){
         this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/batterycriticallylow.mp3", ":/images/src/img/lowbattery.jpg", "Battery critically low. Powering Off");
     }else if(!this->aed->getIsOn()){
+        this->aed->setBatteryLevel(this->aed->getBatteryLevel() - 1);
         // Do a self check and pass the value into the selfCheckUI function
         selfCheckUI();
     }else{
