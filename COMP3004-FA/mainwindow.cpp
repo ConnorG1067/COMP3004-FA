@@ -78,6 +78,11 @@ void MainWindow::initializeBtns(){
         powerBtn();
     });
 
+    // Update battery level ui from AED signal emission
+    connect(this->aed, &AED::updateBatteryLevel, this, [this](){
+        ui->batterylevel->setValue(this->aed->getBatteryLevel());
+    });
+
     // Connect shock button to the shock function
     connect(ui->shock, &QPushButton::released, this, [this](){this->aed->shock();});
     // Connect AED shock button to the shock function
@@ -150,7 +155,7 @@ void MainWindow::powerBtn() {
     if(!this->aed->getIsOn() && this->aed->getBatteryLevel() < 1){
         this->aed->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/batterycriticallylow.mp3", ":/images/src/img/lowbattery.jpg", "Battery critically low. Powering Off");
     }else if(!this->aed->getIsOn()){
-        this->aed->setBatteryLevel(this->aed->getBatteryLevel() - 1);
+        this->aed->getBatteryTimer()->start();
         // Do a self check and pass the value into the selfCheckUI function
         selfCheckUI();
     }else{

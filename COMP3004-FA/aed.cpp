@@ -11,11 +11,21 @@ AED::AED() {
     this->CPRTimer = new QTimer();
     this->CPRTimer->setInterval(600);
 
+    this->batteryTimer = new QTimer();
+    this->batteryTimer->setInterval(5000);
+
     this->CPRElapsedTimer = new QElapsedTimer();
     this->CPRElapsedIterationTimer = new QElapsedTimer();
 
     // Connect flash shock button timer to timer function
     QObject::connect(CPRTimer, SIGNAL(timeout()), this, SLOT(CPRTimerFn()));
+    QObject::connect(batteryTimer, &QTimer::timeout, this, [this](){
+        this->setBatteryLevel(this->getBatteryLevel() - this->batteryAlpha);
+        emit updateBatteryLevel();
+        if(this->getBatteryLevel() < 1){
+            this->getVoiceSystem()->initiateAudioAndTextIntruction("qrc:/audios/src/audios/batterycriticallylow.mp3", ":/images/src/img/lowbattery.jpg", "Battery critically low. Powering Off");
+        }
+    });
 }
 
 // Power on the aed
@@ -34,6 +44,7 @@ bool AED::powerOn() {
 
 // CPR start function
 void AED::startCPR(){
+    this->setBatteryAlpha(5);
     this->CPRElapsedTimer->start();
     this->getCPRTimer()->start();
     this->CPRElapsedIterationTimer->start();
@@ -66,6 +77,7 @@ void AED::CPRTimerFn(){
             int responsiveProbability = QRandomGenerator::global()->bounded(0, 9);
 
             awaitAudio((responsiveProbability < 3) ? "qrc:/audios/src/audios/unresponsive.mp3" : "qrc:/audios/src/audios/responsive.mp3", ":/images/src/img/ems_arrival.png", "Await EMS", [this] () {
+                this->setBatteryAlpha(0);
                 this->mainWindowResetCallback();
             });
 
@@ -138,6 +150,7 @@ void AED::performCompression(int compressionType = 0){
 void AED::readyForShockFunctionality(){
     // If it is ready
     if(this->readyForShock) {
+        this->setBatteryAlpha(5);
         // Play the shock advised audio
         this->voiceSystem->initiateAudioAndTextIntruction("qrc:/audios/src/audios/shockAdvisedChargingStandClear.mp3", ":/images/src/img/analyzing.png", "Administering first shock to patient");
         emit flashShockButtonSignal();
@@ -148,6 +161,8 @@ void AED::readyForShockFunctionality(){
 
 // Shock function
 void AED::shock() {
+    this->setBatteryLevel(this->getBatteryLevel() - 5);
+    this->setBatteryAlpha(2);
     if(this->readyForShock){
         emit this->shockSignal();
         awaitAudio("qrc:/audios/src/audios/ShockDeliveredCPR.mp3", ":/images/src/img/analyzingHeart.png", "Start CPR", [this] () { this->startCPR(); });

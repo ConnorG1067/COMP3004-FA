@@ -28,6 +28,7 @@ class AED : public QObject {
         Victim* victim;
         VoiceSystem* voiceSystem;
 
+        QTimer* batteryTimer;
         QTimer* CPRTimer;
         QElapsedTimer* CPRElapsedTimer;
         QElapsedTimer* CPRElapsedIterationTimer;
@@ -36,6 +37,7 @@ class AED : public QObject {
 
         // Ints
         int batteryLevel = 100;
+        int batteryAlpha = 2;
 
         // Bools
         bool isOn = false;
@@ -86,6 +88,7 @@ class AED : public QObject {
         bool getShockAdministered() { return this->shockAdministered; }
         Victim* getVictim() { return this->victim; }
         VoiceSystem* getVoiceSystem() { return this->voiceSystem; }
+        QTimer* getBatteryTimer() { return this->batteryTimer; }
         QTimer* getCPRTimer() { return this->CPRTimer; }
         QElapsedTimer* getCPRElapsedTimer() { return this->CPRElapsedTimer; }
         QElapsedTimer* getCPRElapsedIterationTimer() { return this->CPRElapsedIterationTimer; }
@@ -94,6 +97,7 @@ class AED : public QObject {
         void setPatientDisturbed(bool isDisturbed) { this->patientDisturbed = isDisturbed; }
         void setIsReadyForShock(bool shockVal) { this->readyForShock = shockVal; }
         void setBatteryLevel(int newBatteryLevel) { this->batteryLevel = newBatteryLevel; }
+        void setBatteryAlpha(int newBatteryAlpha) { this->batteryAlpha = newBatteryAlpha; }
         void setIsOn(bool newIsOn) { this->isOn = newIsOn; }
         void setCorrectPadPos(bool padPositioning) { this->correctPadPos = padPositioning; }
         void setIsFunctional(bool newIsFunctional) { this->isFunctional = newIsFunctional; }
@@ -111,6 +115,7 @@ class AED : public QObject {
         void arythmiaDetected();
         void flashShockButtonSignal();
         void shockSignal();
+        void updateBatteryLevel();
 
     private slots:
         void CPRTimerFn();
